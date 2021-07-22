@@ -54,8 +54,6 @@ setup(
         'xotl.tools>=1.9.0,<2.2; python_version >= "3.4"',
         'ipython<6; python_version < "3"',
         'ipython; python_version >= "3"',
-        "raven>=5.8.0",
-        "raven-sanitize-openerp",
         'enum34; python_version < "3.4"',
         "celery>=4.1.0,<6",
         'typing;python_version<"3.5"',
