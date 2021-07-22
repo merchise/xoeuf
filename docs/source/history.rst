@@ -10,6 +10,14 @@ Deprecations may occur and we may increase compatibility with Odoo 13.  But
 we'll continue to support Odoo 12 during the entire lifespan of xoeuf 2.x.
 
 
+2021-07-22.  Relase 2.6.0
+-------------------------
+
+- Remove the module ``xoeuf.sentrylog``.  Since this module is based in the
+  deprecated SDK raven, and we're not actively using this module, it is better
+  to remove the dependencies.
+
+
 2021-02-25.  Release 2.5.0
 --------------------------
 
