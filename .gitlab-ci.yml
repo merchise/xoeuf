@@ -58,7 +58,7 @@ check formatting with black:
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
       cd odoo
-      pip install -U wheel setuptools
+      pip install -U wheel setuptools==53.1.0
       pip install "futures<3"
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=3.24" "celery~=5.0"
@@ -153,7 +153,7 @@ build documentation:
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
       cd odoo
-      pip install -U wheel setuptools
+      pip install -U wheel setuptools==53.1.0
       pip install "futures<3"
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=3.24"
