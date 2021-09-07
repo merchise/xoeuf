@@ -54,6 +54,11 @@ check formatting with black:
   stage: test
   script:
     - |
+      apt-get update && apt-get install -y build-essential \
+           libxslt1-dev libxml2-dev libsasl2-dev \
+           libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
+           libyaml-dev libgeos-dev libusb-dev \
+           libssl-dev postgresql-client
       mkdir -p vendor
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
@@ -149,6 +154,11 @@ build documentation:
   script:
     - |
       set -x
+      apt-get update && apt-get install -y build-essential \
+           libxslt1-dev libxml2-dev libsasl2-dev \
+           libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
+           libyaml-dev libgeos-dev libusb-dev \
+           libssl-dev postgresql-client
       mkdir -p vendor
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
