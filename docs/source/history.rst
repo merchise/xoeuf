@@ -10,7 +10,7 @@ Deprecations may occur and we may increase compatibility with Odoo 13.  But
 we'll continue to support Odoo 12 during the entire lifespan of xoeuf 2.x.
 
 
-Unreleased.  Release 2.7.0
+2021-09-08.  Release 2.7.0
 --------------------------
 
 - Allow latest versions of `xotl.tools`__ (2.2.x).
