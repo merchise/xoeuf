@@ -51,7 +51,7 @@ setup(
     install_requires=[
         "pytz",
         "decorator>=4.0,<4.2",
-        'xotl.tools>=1.9.0,<2.2; python_version >= "3.4"',
+        "xotl.tools>=1.9.0,<2.3",
         'ipython<6; python_version < "3"',
         'ipython; python_version >= "3"',
         'enum34; python_version < "3.4"',
