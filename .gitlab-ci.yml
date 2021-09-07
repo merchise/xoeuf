@@ -47,7 +47,7 @@ check formatting with black:
   needs:
     - check code smells (with Bugbear and Python 3.6)
     - check formatting with black
-  image: registry.merchise.org/mercurio/odoo-docker:o${ODOO_VERSION}-${PYTHON_VERSION}
+  image: python:${PYTHON_VERSION}
   services:
     - name: "mdillon/postgis:10-alpine"
       alias: "postgres"
@@ -141,7 +141,7 @@ publish pypi:
 
 build documentation:
   interruptible: true
-  image: registry.merchise.org/mercurio/odoo-docker:o12-3.8
+  image: python:3.8
   variables:
     PYTHON_VERSION: "3.8"
     ODOO_VERSION: "12"
