@@ -8,6 +8,7 @@ stages:
   - clean up
 
 check code smells (with Bugbear and Python 3.6):
+  interruptible: true
   image: python:3.6-alpine
   stage: check
   script:
@@ -25,6 +26,7 @@ check code smells (with Bugbear and Python 3.6):
       - setup.cfg
 
 check formatting with black:
+  interruptible: true
   image: python:3.6
   stage: check
   script:
@@ -41,21 +43,27 @@ check formatting with black:
       - pyproject.toml
 
 .run_tests: &run_tests
+  interruptible: true
   needs:
     - check code smells (with Bugbear and Python 3.6)
     - check formatting with black
-  image: registry.merchise.org/mercurio/odoo-docker:o${ODOO_VERSION}-${PYTHON_VERSION}
+  image: python:${PYTHON_VERSION}
   services:
     - name: "mdillon/postgis:10-alpine"
       alias: "postgres"
   stage: test
   script:
     - |
+      apt-get update && apt-get install -y build-essential \
+           libxslt1-dev libxml2-dev libsasl2-dev \
+           libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
+           libyaml-dev libgeos-dev libusb-dev \
+           libssl-dev postgresql-client
       mkdir -p vendor
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
       cd odoo
-      pip install -U wheel setuptools
+      pip install -U wheel setuptools==53.1.0
       pip install "futures<3"
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=3.24" "celery~=5.0"
@@ -73,25 +81,16 @@ check formatting with black:
       - xoeuf/**/*.py
       - setup.py
 
-run all Odoo 12 tests in Python 3.6:
-  <<: *run_tests
-  variables:
-    PYTHON_VERSION: "3.6"
-    ODOO_VERSION: "12"
-    POSTGRES_USER: xoeuf
-    POSTGRES_PASSWORD: xoeuf
-    POSTGRES_HOST: postgres
-
-
-run all Odoo 12 tests in Python 3.8:
+run all tests:
   <<: *run_tests
   variables:
     POSTGRES_USER: xoeuf
     POSTGRES_PASSWORD: xoeuf
     POSTGRES_HOST: postgres
-    PYTHON_VERSION: "3.8"
-    ODOO_VERSION: "12"
-
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.6", "3.8"]
+        ODOO_VERSION: "12"
 
 build source distribution:
   image: python:3.8-alpine
@@ -146,7 +145,8 @@ publish pypi:
 
 
 build documentation:
-  image: registry.merchise.org/mercurio/odoo-docker:o12-3.8
+  interruptible: true
+  image: python:3.8
   variables:
     PYTHON_VERSION: "3.8"
     ODOO_VERSION: "12"
@@ -154,11 +154,16 @@ build documentation:
   script:
     - |
       set -x
+      apt-get update && apt-get install -y build-essential \
+           libxslt1-dev libxml2-dev libsasl2-dev \
+           libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
+           libyaml-dev libgeos-dev libusb-dev \
+           libssl-dev postgresql-client
       mkdir -p vendor
       cd vendor
       git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
       cd odoo
-      pip install -U wheel setuptools
+      pip install -U wheel setuptools==53.1.0
       pip install "futures<3"
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=3.24"
@@ -183,6 +188,7 @@ build documentation:
 
 
 publish in our rtd:
+  interruptible: true
   image: alpine
   variables:
     GIT_STRATEGY: none
