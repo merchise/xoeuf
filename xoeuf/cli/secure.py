@@ -14,6 +14,7 @@
 - [TODO] Changing all accounting related data by a random mapping.
 
 """
+from collections import abc
 from . import Command
 
 
@@ -27,7 +28,6 @@ class Secure(Command):
 
         def path(extensions=None):
             """A type-builder for file arguments."""
-            from xotl.tools.future.types import is_collection
             from os.path import abspath, isfile, splitext
 
             if extensions and not is_collection(extensions):
@@ -145,3 +145,7 @@ class Secure(Command):
 
         config.rcfile = filename
         config.load()
+
+
+def is_collection(which):
+    return isinstance(which, abc.Collection) and not isinstance(which, (str, bytes))

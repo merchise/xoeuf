@@ -59,6 +59,7 @@ except ImportError:
 
         def __init__(self, func):
             self.func = func
+            self.__func__ = func
 
         def __get__(self, instance, owner):
             if instance is None:
