@@ -9,7 +9,7 @@ The releases 2.x are be compatible with Odoo 12 in Python 3.6 and Python 3.8.
 Deprecations may occur and we may increase compatibility with Odoo 13.  But
 we'll continue to support Odoo 12 during the entire lifespan of xoeuf 2.x.
 
-Unreleased.  Release 2.8.0
+2021-10-01.  Release 2.8.0
 --------------------------
 
 - Fix `xoeuf.secure`.  It was broken after the update to `xotl.tools`__ 2.2.0.
