@@ -12,15 +12,15 @@ we'll continue to support Odoo 12 during the entire lifespan of xoeuf 2.x.
 2021-10-01.  Release 2.8.0
 --------------------------
 
-- Fix `xoeuf.secure`.  It was broken after the update to `xotl.tools`__ 2.2.0.
+- Fix `xoeuf.secure`.  It was broken after the update to `xotl.tools`_ 2.2.0.
 
 
 2021-09-08.  Release 2.7.0
 --------------------------
 
-- Allow latest versions of `xotl.tools`__ (2.2.x).
+- Allow latest versions of `xotl.tools`_ (2.2.x).
 
-  __ https://pypi.org/project/xotl.tools/
+.. _xotl.tools: https://pypi.org/project/xotl.tools/
 
 
 2021-07-22.  Release 2.6.0
