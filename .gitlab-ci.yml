@@ -168,7 +168,7 @@ publish pypi:
       pip install -e .
       cd ../../
       pip install -e .
-      pip install sphinx sphinx-rtd-theme
+      pip install 'Sphinx>=4.4.0,<5.0'
       make -C docs/ html
   artifacts:
     paths:
