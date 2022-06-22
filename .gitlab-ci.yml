@@ -178,6 +178,7 @@ publish pypi:
 
 build documentation:
   <<: *with-build-documentation
+  needs: []
   only:
     <<: *changing-code-or-doc
     refs:
