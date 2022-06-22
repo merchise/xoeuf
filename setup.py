@@ -62,7 +62,7 @@ setup(
     ],
     extra_requires={
         "odoo": ['odoo>=12.0,<13.0; python_version >= "3.5"'],
-        "test": ["hypothesis>=3.7.0,<4"],
+        "test": ["hypothesis>=3.7.0,<6.38"],
     },
     python_requires=">=3.6",
     entry_points="""

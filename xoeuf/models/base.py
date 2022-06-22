@@ -47,7 +47,7 @@ def get_modelname(model):
 
 @property
 def _onupdate_methods(self):
-    """ Return a list of updater methods. """
+    """Return a list of updater methods."""
 
     def is_onupdate(func):
         return callable(func) and hasattr(func, "_onupdates")

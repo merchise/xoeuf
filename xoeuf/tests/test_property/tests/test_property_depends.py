@@ -14,7 +14,7 @@ from odoo.addons.test_property.models import Undefined
 from xoeuf.testing.db import rollbacked
 
 
-values = st.floats(allow_infinity=False, allow_nan=False) | st.integers()
+values = st.integers()
 
 
 class TestPropertyDepends(TransactionCase):

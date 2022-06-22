@@ -15,7 +15,7 @@ from odoo.tests.common import TransactionCase
 from xoeuf.testing.db import rollbacked
 
 finite_floats = s.floats(
-    min_value=-(2 ** 32), max_value=2 ** 32, allow_nan=False, allow_infinity=False
+    min_value=-(2**32), max_value=2**32, allow_nan=False, allow_infinity=False
 )
 
 

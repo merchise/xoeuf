@@ -97,7 +97,7 @@ def _setup_base(self, *args, **kwargs):
 
 @api.model
 def _add_inherits_by_reference_fields(self, reference_fields):
-    """ Determine inherited fields. """
+    """Determine inherited fields."""
     # determine candidate inherited fields
     for reference_field_name, reference_field in reference_fields:
         mixin = self.env[reference_field.mixin]

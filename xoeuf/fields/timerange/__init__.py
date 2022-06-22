@@ -131,7 +131,7 @@ class TimeRange(Selection):
             return selection
 
     def _dict_selection(self, env):
-        """ return a dictionary value:translatable String """
+        """return a dictionary value:translatable String"""
         selection = self.selection
         if env.lang and isinstance(selection, list):
             name = "%s,%s" % (self.model_name, self.name)
@@ -149,7 +149,7 @@ class TimeRange(Selection):
         return {value: label for value, label, start, end in selection}
 
     def get_values(self, env):
-        """ return a list of the possible values """
+        """return a list of the possible values"""
         selection = self.selection
         if isinstance(selection, str):
             selection = getattr(env[self.model_name], selection)()

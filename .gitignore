@@ -36,3 +36,4 @@ dist/
 #*
 
 eproject.cfg
+.python-version
