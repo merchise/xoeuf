@@ -30,7 +30,7 @@ check formatting with black:
   image: python:3.6
   stage: check
   script:
-    - pip install 'black==20.8b1'
+    - pip install 'black==22.3.0'
     - black --check xoeuf/
   only:
     refs:

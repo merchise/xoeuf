@@ -55,7 +55,6 @@ try:
 
         return inner
 
-
 except ImportError:
     import warnings
 
