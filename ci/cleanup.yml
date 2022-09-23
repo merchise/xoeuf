@@ -4,6 +4,7 @@ stages:
 
 remove MR documentation:
   image: alpine
+  interruptible: true
   stage: clean up
   variables:
     GIT_STRATEGY: none
