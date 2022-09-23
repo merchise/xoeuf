@@ -5,9 +5,9 @@
 Releases 3.x
 ============
 
-The releases 3.x are be compatible with Odoo 12 in Python 3.8, 3.9 and 3.11.
-Deprecations may occur and we may increase compatibility with Odoo 13.  But
-we'll continue to support Odoo 12 during the entire lifespan of xoeuf 3.x.
+The releases 3.x are be compatible with Odoo 12 in Python 3.8.  Deprecations
+may occur and we may increase compatibility with Odoo 13.  But we'll continue
+to support Odoo 12 during the entire lifespan of xoeuf 3.x.
 
 This should be last series that support Odoo 12.
 
