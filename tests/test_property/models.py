@@ -146,8 +146,11 @@ class ObjectMixin(models.AbstractModel):
             values["thing"] = repr(values.pop("result"))
         return super(ObjectMixin, self).create(values)
 
-    def _get_result(self):
+    def eval_thing(self):
         return safe_eval(self.thing) if self.thing else self.thing
+
+    def _get_result(self):
+        return self.eval_thing()
 
     def _set_result(self, value):
         self.thing = repr(value)
