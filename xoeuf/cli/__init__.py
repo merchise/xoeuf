@@ -8,10 +8,6 @@
 #
 # Makes sure modules are patched before any command-related code is
 # invoked.
-from xoeuf.modules import patch_modules
-
-patch_modules()
-
 DEFAULT_COMMAND = str("server")
 
 

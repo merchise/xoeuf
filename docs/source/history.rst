@@ -16,6 +16,8 @@ Unreleased.  Release 3.0.0
 
 - Removed support for Python 3.6, and 3.7.
 
+- Remove support of addons using setuptool's entrypoint 'xoeuf.addons'.
+
 
 Releases 2.x
 ============

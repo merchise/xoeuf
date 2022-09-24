@@ -80,6 +80,7 @@ class TestInheritedValue(TransactionCase):
             val = Value.create({"thing": repr({i: i})})
             iden = Identifier.create({"name": "v%d" % i, "value_id": val.id})
             self.assertEqual(val.thing, iden.thing)
+            self.assertEqual(iden.result, val.result)
 
     def test_result_write(self):
         i = self.Identifier.search([], limit=1)

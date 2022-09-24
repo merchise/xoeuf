@@ -10,119 +10,11 @@
 
 """
 import sys
-import logging
 import re
 
-from xotl.tools.future.functools import lru_cache
-from xotl.tools.modules import customize
-from xotl.tools.modules import modulemethod
 from xotl.tools.string import cut_prefix
 
 _ADDONS_NAMESPACE = re.compile(r"^(?:odoo|openerp)\.addons\.(?P<module>[^\.]+)\.")
-XOEUF_EXTERNAL_ADDON_GROUP = "xoeuf.addons"
-
-
-class _PatchesRegistry(object):
-    _registry = {}
-    _wrapped = {}
-
-    def __call__(self, func):
-        from xotl.tools.names import nameof
-
-        name = nameof(func, inner=True, full=False)
-        self._registry[name] = func
-        return func
-
-    def get_super(self, name):
-        return self._wrapped[name]
-
-    def apply(self):
-        from odoo.modules import module
-
-        patched = getattr(module, "__xoeuf_patched__", False)
-        if patched:
-            # This is an Odoo that's being patched by us.
-            return
-        bootstraped = getattr(self, "bootstraped", False)
-        if not bootstraped:
-            for name, _func in self._registry.items():
-                self._wrapped[name] = getattr(module, name)
-            module = customize(module)[0]
-            for name, func in self._registry.items():
-                setattr(module, name, func)
-            self.bootstraped = True
-
-
-patch = _PatchesRegistry()
-
-
-@modulemethod
-@lru_cache(1)
-def find_external_addons(self):
-    """Finds all externally installed addons.
-
-    Externally installed addons are modules that are distributed with
-    setuptools' distributions.
-
-    An externally addon is defined in a package that defines an `entry
-    point`__ in the group "xoeuf.addons" which points to a standard package
-    (i.e loadable without any specific loader).
-
-    :returns:  A dictionary from addons to it's a tuple of `(container's path,
-               entry_point)`.
-
-    Example::
-
-       [xoeuf.addons]
-       xopgi_account = xopgi.addons.xopgi_account
-
-    """
-    import os
-    from pkg_resources import iter_entry_points
-    from xotl.tools.future.itertools import delete_duplicates
-
-    res = []
-    for entry in iter_entry_points(XOEUF_EXTERNAL_ADDON_GROUP):
-        if not entry.attrs:
-            # The entry-point is a whole module.  We can't load the module
-            # here, cause the whole point is to grab the paths before openerp
-            # is configured, but if you load an OpenERP addon you will be
-            # importing openerp somehow and enacting configuration
-            loc = entry.dist.location
-            relpath = entry.module_name.replace(".", os.path.sep)
-            # The parent directory is the one!
-            abspath = os.path.abspath(os.path.join(loc, relpath, ".."))
-            if os.path.isdir(abspath):
-                res.append(abspath)
-                name = entry.module_name
-                pos = name.rfind(".")
-                if pos >= 0:
-                    name = name[pos + 1 :]  # noqa
-    return delete_duplicates(res)
-
-
-@patch
-@modulemethod
-def initialize_sys_path(self):
-    from xotl.tools.objects import setdefaultattr
-    from odoo.modules import module
-
-    _super = patch.get_super("initialize_sys_path")
-    external_addons = setdefaultattr(self, "__addons", [])
-    if not external_addons:
-        _super()
-        result = module.ad_paths
-        external_addons.extend(self.find_external_addons())
-        result.extend(external_addons)
-        module.ad_paths = result
-        return result
-    else:
-        return module.ad_paths
-
-
-def patch_modules():
-    """Patches OpenERP `modules.module` to work with external addons."""
-    patch.apply()
 
 
 def _get_registry(db_name):
@@ -247,4 +139,4 @@ def get_caller_addon(depth=0, max_depth=5):
     return res
 
 
-del re, logging
+del re
