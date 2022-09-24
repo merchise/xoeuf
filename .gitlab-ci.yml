@@ -20,6 +20,7 @@ stages:
     - 'docs/themes/**/*'
     - docs/**/*.py
     - docs/**/*.rst
+    - tests/**/*.py
     - xoeuf/**/*.py
     - setup.py
     - setup.cfg
@@ -31,6 +32,7 @@ stages:
     - merge_requests
   changes:
     - .gitlab-ci.yml
+    - tests/**/*.py
     - xoeuf/**/*.py
     - setup.py
     - setup.cfg
