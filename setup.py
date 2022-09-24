@@ -69,8 +69,5 @@ setup(
       [console_scripts]
       xoeuf = xoeuf.cli.server:server
       xoeuf_mailgate = xoeuf.cli.mailgate:main
-
-      [xoeuf.addons]
-      test_localized_dt = xoeuf.tests.test_localized_dt
       """,
 )

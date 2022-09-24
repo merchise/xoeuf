@@ -19,8 +19,7 @@
 # avoid clashes in a shared DB env with a CI server not running in a
 # container.
 NOW=`date --utc +"%Y%m%d%H%M%N"`
-CDIR=`pwd`
-HASH=`echo "$CDIR-$NOW" | md5sum -t - | awk '{print $1}' |cut -b-9`
+HASH=`echo "$PWD-$NOW" | md5sum -t - | awk '{print $1}' |cut -b-9`
 DB=tdb_"$HASH"
 STDOUT="/tmp/odoo-$HASH.log"
 
@@ -28,6 +27,7 @@ echo "Logs in $STDOUT"
 
 ADDONS=''
 EXECUTABLE='xoeuf'
+current_dir=$(dirname $0)
 
 echo "POSTGRES_HOST: $POSTGRES_HOST, POSTGRES_USER: $POSTGRES_USER, POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
 
@@ -77,7 +77,7 @@ done
 # Just in case
 dropdb $DB 2>/dev/null
 
-ARGS="$ARGS --stop-after-init --test-enable --log-level=test --workers=0 --max-cron-threads=0"
+ARGS="$ARGS --addons-path $current_dir/tests --stop-after-init --test-enable --log-level=test --workers=0 --max-cron-threads=0"
 if [ -z "$ADDONS" ]; then
     # XXX: Putting -i all does not work.  I have to look in standard addons
     # places.  However, I omit hardware-related addons.

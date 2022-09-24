@@ -91,7 +91,7 @@ check formatting with black:
       pip install -e .
       cd ../../
       pip install -e .
-      export ADDONS=`ls xoeuf/tests/ | grep ^test_ | xargs | tr " " ","`
+      export ADDONS=`ls tests/ | grep ^test_ | xargs | tr " " ","`
       cd vendor/odoo
       ../../runtests-odoo.sh -i $ADDONS --db_host=$POSTGRES_HOST --db_password=$POSTGRES_PASSWORD --db_user=$POSTGRES_USER
   only:
