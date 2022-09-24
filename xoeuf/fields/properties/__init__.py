@@ -164,10 +164,18 @@ class PropertyField(Base):
     def onsetup(self, f):
         return self.new(onsetup=f)
 
+    def get_related_instance(self, instance):
+        related = self.args.get("related")
+        if related and instance is not None:
+            for x in related[:-1]:
+                instance = instance[x]
+        return instance
+
     def __get__(self, instance, owner):
         if instance is None:
             return self
         else:
+            instance = self.get_related_instance(instance)
             if not instance:
                 return self.null(instance.env)
             instance.ensure_one()
@@ -182,6 +190,7 @@ class PropertyField(Base):
                 return result
 
     def __set__(self, instance, value):
+        instance = self.get_related_instance(instance)
         if self.property_setter:
             instance.ensure_one()
             self.property_setter(instance, value)
@@ -194,6 +203,7 @@ class PropertyField(Base):
             raise TypeError("Setting to read-only Property")
 
     def __delete__(self, instance):
+        instance = self.get_related_instance(instance)
         if self.property_deleter:
             instance.ensure_one()
             self.property_deleter(instance)
