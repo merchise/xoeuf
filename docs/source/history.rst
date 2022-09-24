@@ -18,6 +18,9 @@ Unreleased.  Release 3.0.0
 
 - Remove support of addons using setuptool's entrypoint 'xoeuf.addons'.
 
+- Fix `xoeuf.fields.Property`:class: when calling methods in the model and
+  accessed via a related/delegated field.
+
 
 Releases 2.x
 ============
