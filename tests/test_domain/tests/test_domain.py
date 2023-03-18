@@ -500,3 +500,21 @@ class TestConsistencyOfFilters(TransactionCase):
 
     def test_consistency_of_domains(self):
         run_state_machine_as_test(get_model_domain_machine(self))
+
+
+class TestRegression(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        self.env["test_domain.model"].create({"name": "Dummy", "age": 1})
+
+    def test_Domain_TRUE(self):
+        self.assertEqual(
+            self.env["test_domain.model"].search(Domain.TRUE, count=True),
+            1,
+        )
+
+    def test_Domain_FALSE(self):
+        self.assertEqual(
+            self.env["test_domain.model"].search(Domain.FALSE, count=True),
+            0,
+        )
