@@ -11,7 +11,7 @@ to support Odoo 12 during the entire lifespan of xoeuf 3.x.
 
 This should be last series that support Odoo 12.
 
-Unreleased.  Release 3.1.0
+2023-03-18.  Release 3.1.0
 --------------------------
 
 - Fix `Domain.TRUE <xoeuf.osv.expression.Domain.TRUE>`:any: and `Domain.FALSE
