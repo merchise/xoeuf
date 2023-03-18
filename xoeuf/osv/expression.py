@@ -113,12 +113,12 @@ class Domain(list):
     @classproperty
     def TRUE(cls):
         "The domain which is True.  Implemented as ``[(1, '=', 1)]``."
-        return cls(this.TRUE_LEAF)
+        return cls(this.TRUE_DOMAIN)
 
     @classproperty
     def FALSE(cls):
         "The domain which is False.  Implemented as ``[(0, '=', 1)]``."
-        return cls(this.TRUE_LEAF)
+        return cls(this.FALSE_DOMAIN)
 
     @property
     def first_normal_form(self):
