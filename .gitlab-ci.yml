@@ -29,6 +29,7 @@ stages:
 .x-when-updating-code: &when-updating-code
   refs:
     - main
+    - /^stable-/
     - merge_requests
   changes:
     - .gitlab-ci.yml
@@ -185,6 +186,7 @@ build documentation:
     <<: *changing-code-or-doc
     refs:
       - main
+      - /^stable-/
       - tags
       - merge_request
 
@@ -216,6 +218,7 @@ publish in our rtd:
     <<: *changing-code-or-doc
     refs:
       - main
+      - /^stable-/
       - tags
       - merge_request
     variables:
@@ -239,7 +242,7 @@ pages:
   only:
     <<: *changing-code-or-doc
     refs:
-      - main
+      - /^stable-/
 
 
 automatically remove MR documentation from our RTD server after 4 hours:
