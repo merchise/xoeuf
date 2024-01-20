@@ -43,10 +43,10 @@ class LocalizedDatetime(fields.Datetime):
         self.dt_field = dt_field
         self.tzone_field = tzone_field
         kwargs = dict(
-            dict(store=False, copy=False, dt_field=dt_field, tzone_field=tzone_field),
+            {"store": False, "copy": False, "dt_field": dt_field, "tzone_field": tzone_field},
             **kwargs,
         )
-        super(LocalizedDatetime, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def new(self, **kwargs):
         # Pass original args to the new one.  This ensures that the
@@ -54,13 +54,13 @@ class LocalizedDatetime(fields.Datetime):
         # this `new()` without arguments to duplicate the fields from parent
         # classes.
         kwargs = dict(self.args, **kwargs)
-        return super(LocalizedDatetime, self).new(**kwargs)
+        return super().new(**kwargs)
 
     def _setup_regular_full(self, model):
         # This is to support the case where ModelB `_inherits` from a ModelA
         # with a localized datetime.  In such a case, we don't override the
         # compute method.
-        super(LocalizedDatetime, self)._setup_regular_full(model)
+        super()._setup_regular_full(model)
         self.depends = tuple(f for f in (self.dt_field, self.tzone_field) if f)
         self.compute = self._compute
         if not self.readonly:

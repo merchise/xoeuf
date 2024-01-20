@@ -18,7 +18,7 @@ class TestTimeRange(TransactionCase):
         self.Model = self.env["test.time.range"]
 
     def test_compute_range(self):
-        obj = self.Model.create(dict(time_value=Hours["15:30"]))
+        obj = self.Model.create({"time_value": Hours["15:30"]})
 
         self.assertEqual(obj.range_value, "afternoon")
 
@@ -31,7 +31,7 @@ class TestTimeRange(TransactionCase):
         self.assertEqual(obj.range_value, "noon")
 
     def test_compute_datetime_range_by_tzone(self):
-        obj = self.Model.create(dict(datetime_value=datetime(2020, 8, 31, 12, 0, 0)))
+        obj = self.Model.create({"datetime_value": datetime(2020, 8, 31, 12, 0, 0)})
 
         self.assertEqual(obj.range_datetime, "noon")
 

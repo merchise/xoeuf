@@ -71,7 +71,7 @@ def mark_dangling_modules(db):
 
     """
     dangling = get_dangling_modules(db)
-    dangling.write(dict(state="uninstallable"))
+    dangling.write({"state": "uninstallable"})
     dangling.env.cr.commit()
     return dangling
 

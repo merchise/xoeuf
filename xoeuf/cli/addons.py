@@ -20,9 +20,7 @@ class Addons(Command):
 
             res = ArgumentParser()
             cls._arg_parser = res
-            res.add_argument(
-                "-f", "--filter", dest="filters", default=[], action="append"
-            )
+            res.add_argument("-f", "--filter", dest="filters", default=[], action="append")
         return res
 
     @classmethod

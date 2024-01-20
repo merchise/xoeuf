@@ -128,10 +128,10 @@ class Enumeration(Char, _EnumeratedField):
             if compute_member_string:
                 selection_field_kwargs["compute_member_string"] = compute_member_string
 
-        super(Enumeration, self).__init__(
+        super().__init__(
+            *args,
             enumclass=enumclass,
             selection_field_kwargs=selection_field_kwargs,
-            *args,
             **kwargs,
         )
         self.enumclass = enumclass
@@ -139,9 +139,7 @@ class Enumeration(Char, _EnumeratedField):
 
     def new(self, **kwargs):
         enumclass = kwargs.pop("enumclass", self.enumclass)
-        selection_field_kwargs = kwargs.pop(
-            "selection_field_kwargs", self.selection_field_kwargs
-        )
+        selection_field_kwargs = kwargs.pop("selection_field_kwargs", self.selection_field_kwargs)
         return type(self)(
             enumclass=enumclass, selection_field_kwargs=selection_field_kwargs, **kwargs
         )
@@ -303,9 +301,7 @@ class Enumeration(Char, _EnumeratedField):
             cls = type(model)
             if EnumerationAdapter not in cls.mro() and not self.related:
                 cls.__bases__ = (EnumerationAdapter,) + cls.__bases__
-                logger.debug(
-                    "Setting %s to model %s(%s, %s)", self, model, cls, id(cls)
-                )
+                logger.debug("Setting %s to model %s(%s, %s)", self, model, cls, id(cls))
             self.Enumclass = self.resolve_enumclass(model)
             result = super(Enumeration, self).setup_full(model)
             if not self.compute and not self.related and not model._abstract:
@@ -351,9 +347,7 @@ class Enumeration(Char, _EnumeratedField):
     # versions.
     def convert_to_column(self, value, record, values=None, validate=True):
         if value in self.Enumclass.__members__.values():
-            return Char.convert_to_column(
-                self, self.get_member_by_value(value).name, record
-            )
+            return Char.convert_to_column(self, self.get_member_by_value(value).name, record)
         else:
             return Char.convert_to_column(self, value, record)
 
@@ -401,8 +395,7 @@ class EnumerationAdapter(Adapter):
                         values = [_get_db_value(field, o) for o in operands]
                     else:
                         raise TypeError(
-                            "Unsupported operator %r for an enumeration field"
-                            % operator
+                            "Unsupported operator %r for an enumeration field" % operator
                         )
                     args[index] = (fieldname, operator, values)
         return super(EnumerationAdapter, self).search(args, *pos_args, **kwargs)
@@ -446,11 +439,9 @@ def _get_db_value(field, value):
 def _get_member_by_value(enumclass, value):
     """Find the enumclass's member that is equal to `value`."""
     try:
-        return next(
-            Member(k, v) for k, v in enumclass.__members__.items() if v == value
-        )
+        return next(Member(k, v) for k, v in enumclass.__members__.items() if v == value)
     except StopIteration:
-        raise ValueError("Invalid member %r of enumeration %r" % (value, enumclass))
+        raise ValueError("Invalid member %r of enumeration %r" % (value, enumclass)) from None
 
 
 def _get_member_by_name(enumclass, name):
@@ -458,7 +449,7 @@ def _get_member_by_name(enumclass, name):
     try:
         return Member(name, enumclass.__members__[name])
     except (AttributeError, KeyError):
-        raise ValueError("Invalid key %r of enumeration %r" % (name, enumclass))
+        raise ValueError("Invalid key %r of enumeration %r" % (name, enumclass)) from None
 
 
 def constant(value):

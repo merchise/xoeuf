@@ -16,7 +16,7 @@ from typing import Union, Any  # noqa
 from xotl.tools.names import nameof
 
 try:
-    from odoo.tools import safe_eval, float_round  # noqa: reexport
+    from odoo.tools import safe_eval, float_round  # noqa
 except ImportError:
     # This allows to generate the documentation without actually installing
     # Odoo
@@ -42,7 +42,7 @@ _SVR_DATETIME_FMT2 = _SVR_DATETIME_FMT + ".%f"
 
 
 def strip_tzinfo(dt):
-    # type: (datetime.datetime) -> datetime.datetim
+    # type: (datetime.datetime) -> datetime.datetime
     """Return the given datetime value with tzinfo removed.
 
     .. deprecated:: 0.50.0  Use the replace method of datetime.
@@ -189,9 +189,7 @@ def normalize_datetime(which):
         except ValueError:
             return parse_date(which)
     else:
-        raise TypeError(
-            "Expected a string, date or date but a '%s' was given" % type(which)
-        )
+        raise TypeError("Expected a string, date or date but a '%s' was given" % type(which))
 
 
 def normalize_date(which):
@@ -243,9 +241,7 @@ def normalize_date(which):
         except ValueError:
             return parse_datetime(which).date()
     else:
-        raise TypeError(
-            "Expected a string, date or date but a '%s' was given" % type(which)
-        )
+        raise TypeError("Expected a string, date or date but a '%s' was given" % type(which))
 
 
 def dt_as_timezone(dt, tz_name=None):
@@ -370,9 +366,7 @@ def get_time_string_from_float(value, up_24=True, include_seconds=False):
        '01:24:14 PM'
 
     """
-    return get_time_string(
-        get_time_from_float(value), up_24=up_24, include_seconds=include_seconds
-    )
+    return get_time_string(get_time_from_float(value), up_24=up_24, include_seconds=include_seconds)
 
 
 _SAFE_EVAL_SYMBOLS = {}
@@ -403,7 +397,7 @@ def add_symbols_to_xmls(*objs, **symbols):
 
 
 # HACK to make TERM_RELATIONSHIP_KIND available in XMLs.
-from odoo.tools import convert
+from odoo.tools import convert  # noqa
 
 _safe_eval = convert.safe_eval
 

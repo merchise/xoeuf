@@ -2,5 +2,4 @@
 ;;; For more information see (info "(emacs) Directory Variables")
 
 ((python-mode
-	(fill-column . 88)
-	(blacken-line-length . nil)))
+	(fill-column . 100)))

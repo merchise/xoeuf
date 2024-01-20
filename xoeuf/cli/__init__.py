@@ -1,17 +1,9 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-# ---------------------------------------------------------------------
-# Copyright (c) Merchise Autrement [~º/~] and Contributors
-# All rights reserved.
-#
-# This is free software; you can do what the LICENCE file allows you to.
-#
 # Makes sure modules are patched before any command-related code is
 # invoked.
 DEFAULT_COMMAND = str("server")
 
 
-from xotl.tools.cli import Command as BaseCommand
+from xotl.tools.cli import Command as BaseCommand  # noqa
 
 
 class CommandsProxy(BaseCommand):
@@ -85,8 +77,8 @@ del BaseCommand
 
 
 # TODO: Loader?
-from . import migration
-from . import secure as _secure
-from . import addons as _addons
+from . import migration  # noqa
+from . import secure as _secure  # noqa
+from . import addons as _addons  # noqa
 
 del _secure, _addons, migration

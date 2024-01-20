@@ -45,9 +45,7 @@ class TypedReference(fields.Reference):
     def __init__(self, mixin=fields.Default, delegate=fields.Default, **kwargs):
         # Set comodel_name = mixin, this is required for odoo make triggers
         # on delegate field declarations.
-        super(TypedReference, self).__init__(
-            **dict(kwargs, mixin=mixin, comodel_name=mixin, delegate=delegate)
-        )
+        super().__init__(**dict(kwargs, mixin=mixin, comodel_name=mixin, delegate=delegate))
 
     def new(self, **kwargs):
         # Pass original args to the new one.  This ensures that the
@@ -55,7 +53,7 @@ class TypedReference(fields.Reference):
         # this `new()` without arguments to duplicate the fields from parent
         # classes.
         kwargs = dict(self.args, **kwargs)
-        return super(TypedReference, self).new(**kwargs)
+        return super().new(**kwargs)
 
     def _setup_regular_base(self, model):
         if not self.selection:
@@ -67,18 +65,13 @@ class TypedReference(fields.Reference):
                 ]
 
             self.selection = selection
-        return super(TypedReference, self)._setup_regular_base(model)
+        return super()._setup_regular_base(model)
 
     def convert_to_cache(self, value, record, validate=True):
-        res = super(TypedReference, self).convert_to_cache(
-            value, record, validate=validate
-        )
+        res = super().convert_to_cache(value, record, validate=validate)
         if res and validate:
-            res_model, res_id = res
-            descendants = [
-                model_name
-                for model_name in get_mixin_descendants(record.pool, self.mixin)
-            ]
+            res_model, _res_id = res
+            descendants = list(get_mixin_descendants(record.pool, self.mixin))
             if res_model not in descendants:
                 raise ValueError(_("Wrong value for %s: %r") % (self, res))
         return res
@@ -156,9 +149,7 @@ def _make_search_method(reference_field, field_name):
     @api.multi
     def _search(self, operator, value):
         domain = Domain([FALSE_LEAF])
-        for model in get_mixin_descendants(
-            self.pool, self._fields[reference_field].mixin
-        ):
+        for model in get_mixin_descendants(self.pool, self._fields[reference_field].mixin):
             for r in self.env[model].search([(field_name, operator, value)]):
                 domain |= [(reference_field, "=", r.reference_repr)]
         return domain

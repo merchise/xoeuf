@@ -98,9 +98,7 @@ class TestReferences(TransactionCase):
         This behave is the same with any `Reference` odoo field.
 
         """
-        obj = self.env["test.model1"].create(
-            {"partner_id": self.env.user.partner_id.id}
-        )
+        obj = self.env["test.model1"].create({"partner_id": self.env.user.partner_id.id})
         obj2 = self.env["test.model"].create({"typed_ref": obj.reference_repr})
         dummy_value = "any value"
 
@@ -144,9 +142,7 @@ class TestReferences(TransactionCase):
         This behave is the same with any `Reference` odoo field.
 
         """
-        obj = self.env["test.model1"].create(
-            {"partner_id": self.env.user.partner_id.id}
-        )
+        obj = self.env["test.model1"].create({"partner_id": self.env.user.partner_id.id})
         obj2 = self.env["test.model"].create({"typed_ref": obj.reference_repr})
         dummy_value = "any value"
 
@@ -171,9 +167,7 @@ class TestReferences(TransactionCase):
         #     obj.partner_id.name = dummy_value
 
     def test_related_field_inverse(self):
-        obj = self.env["test.model1"].create(
-            {"partner_id": self.env.user.partner_id.id}
-        )
+        obj = self.env["test.model1"].create({"partner_id": self.env.user.partner_id.id})
         obj2 = self.env["test.model"].create({"typed_ref": obj.reference_repr})
         dummy_value = "any value"
 

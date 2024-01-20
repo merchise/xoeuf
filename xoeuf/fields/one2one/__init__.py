@@ -36,9 +36,7 @@ class One2one(Many2one):
                     (
                         constraint_name,
                         "unique ({field})".format(field=self.name),
-                        "One2one field {field!r} must be unique".format(
-                            field=self.name
-                        ),
+                        "One2one field {field!r} must be unique".format(field=self.name),
                     )
                 )
         return res

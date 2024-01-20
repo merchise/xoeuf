@@ -7,12 +7,9 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 try:
-    from ._version import get_version
+    from ._version import version
+except ImportError:
+    version = "dev"
 
-    VERSION = get_version()
-except:  # noqa
-    from ._version import get_versions
-
-    VERSION = get_versions()["version"]
-
+VERSION = version
 RELEASE_TAG = ""

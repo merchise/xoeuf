@@ -106,9 +106,7 @@ class _BaseWriter(object):
                             "Malformed value '%s' for " "attribute %s" % (val, attrname)
                         )
                 elif self._is_one2many(attrname):
-                    raise TypeError(
-                        "'update' does not allow one2many keyword" "arguments."
-                    )
+                    raise TypeError("'update' does not allow one2many keyword" "arguments.")
                 else:
                     commands[attrname] = val
 
@@ -215,8 +213,8 @@ class ORMWriter(_BaseWriter):
             else:
                 raise TypeError("Invalid signature for get_writer")
         except (KeyError, ValueError):
-            raise TypeError("Invalid signature for get_writer")
-        super(ORMWriter, self).__init__(recordset)
+            raise TypeError("Invalid signature for get_writer") from None
+        super().__init__(recordset)
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         if exc_type or exc_value:
@@ -262,8 +260,8 @@ class ORMCreator(_BaseWriter):
             else:
                 raise TypeError("Invalid signature for get_creator")
         except (KeyError, ValueError):
-            raise TypeError("Invalid signature for get_creator")
-        super(ORMCreator, self).__init__(model)
+            raise TypeError("Invalid signature for get_creator") from None
+        super().__init__(model)
 
     def __exit__(self, exc_type, exc_value, exc_tb):
         if exc_type or exc_value:

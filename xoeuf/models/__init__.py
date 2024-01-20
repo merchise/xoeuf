@@ -6,10 +6,7 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-"""A new object model.
+"""A new object model."""
+from odoo.models import *  # noqa
 
-
-"""
-from odoo.models import *  # noqa: reexport
-
-from .base import *  # noqa: reexport
+from .base import *  # noqa

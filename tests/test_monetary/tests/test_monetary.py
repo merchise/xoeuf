@@ -14,9 +14,7 @@ from odoo.tests.common import TransactionCase
 
 from xoeuf.testing.db import rollbacked
 
-finite_floats = s.floats(
-    min_value=-(2**32), max_value=2**32, allow_nan=False, allow_infinity=False
-)
+finite_floats = s.floats(min_value=-(2**32), max_value=2**32, allow_nan=False, allow_infinity=False)
 
 
 class TestMonetary(TransactionCase):
@@ -27,10 +25,10 @@ class TestMonetary(TransactionCase):
             # If can sum the currency's unit to the value, it's expressed in
             # the same currency unit.
             value + unit
-        except TypeError:
+        except TypeError as cause:
             raise AssertionError(
-                "'%s' is not in terms of currency '%s'" % (value, currency.name)
-            )
+                f"'{value}' is not in terms of currency '{currency.name}'"
+            ) from cause
 
     @hypothesis.given(finite_floats)
     @hypothesis.settings(max_examples=5)

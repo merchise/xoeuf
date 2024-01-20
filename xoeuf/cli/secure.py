@@ -32,11 +32,13 @@ class Secure(Command):
 
             if extensions and not is_collection(extensions):
                 extensions = (extensions,)
-            acceptable = lambda ext: not extensions or ext in extensions
+
+            def acceptable(ext):
+                return not extensions or ext in extensions
 
             def inner(value):
                 res = abspath(value)
-                name, extension = splitext(value)
+                _name, extension = splitext(value)
                 if not isfile(res) or not acceptable(extension):
                     raise TypeError("Invalid filename %r" % res)
                 return res

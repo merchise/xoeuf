@@ -289,9 +289,7 @@ class Domain(list):
         :return: A domain if first normal form.
 
         """
-        return Domain(
-            this.AND([Domain(domain).second_normal_form for domain in domains])
-        )
+        return Domain(this.AND([Domain(domain).second_normal_form for domain in domains]))
 
     __and__ = __rand__ = AND
 
@@ -302,9 +300,7 @@ class Domain(list):
         :return: A domain if first normal form.
 
         """
-        return Domain(
-            this.OR([Domain(domain).second_normal_form for domain in domains])
-        )
+        return Domain(this.OR([Domain(domain).second_normal_form for domain in domains]))
 
     __or__ = __ror__ = OR
 
@@ -394,9 +390,7 @@ class Domain(list):
         """
         return eval(
             compile(
-                self._get_filter_ast(
-                    this, convert_false=convert_false, convert_none=convert_none
-                ),
+                self._get_filter_ast(this, convert_false=convert_false, convert_none=convert_none),
                 "<domain>",
                 "eval",
             )
@@ -428,9 +422,7 @@ class Domain(list):
                 stack.append(constructor(*args))
         node = stack.pop()
         assert not stack, "Remaining nodes in the stack: {}".format(stack)
-        fn = ql.ensure_compilable(
-            ql.Expression(ql.Lambda(ql.make_arguments(this), node))
-        )
+        fn = ql.ensure_compilable(ql.Expression(ql.Lambda(ql.make_arguments(this), node)))
         return fn
 
     def walk(self):
@@ -630,10 +622,10 @@ class DomainTree(object):
         for child in set(self.children):
             if self.term == this.AND_OPERATOR:
                 # If current `child` is implied by any other ignore it.
-                func = lambda x, y: y.implies(x)
+                func = lambda x, y: y.implies(x)  # noqa
             else:
                 # If current `child` implies any other ignore it.
-                func = lambda x, y: x.implies(y)
+                func = lambda x, y: x.implies(y)  # noqa
             if any(func(child, y) for y in self.children - {child}):
                 self.children.remove(child)
         if len(self.children) == 1:
@@ -655,9 +647,7 @@ class DomainTree(object):
             # Initials `&` aren't needed.
             res = Domain([self.term.original] if self.term == this.OR_OPERATOR else [])
         if not self.is_leaf:
-            res.extend(
-                chain(*(x.get_simplified_domain() for x in self.sorted_children))
-            )
+            res.extend(chain(*(x.get_simplified_domain() for x in self.sorted_children)))
         return res
 
     def __repr__(self):
@@ -673,9 +663,7 @@ class DomainTree(object):
             if self.is_leaf:
                 return self.term == other.term
             else:
-                return (
-                    self.term == other.term and not self.children ^ other.children
-                )  # noqa
+                return self.term == other.term and not self.children ^ other.children  # noqa
         return False
 
     def __ne__(self, other):
@@ -688,9 +676,7 @@ class DomainTree(object):
             if self.term.implies(other.term):
                 return True
             # A => A | B
-            if other.is_operator and funct(
-                self.implies(child) for child in other.sorted_children
-            ):
+            if other.is_operator and funct(self.implies(child) for child in other.sorted_children):
                 return True
         elif self.is_operator:
             funct2 = any if self.term == this.AND_OPERATOR else all
@@ -864,9 +850,7 @@ def _get_constructor_alt(weak_qst, strong_qst, negate=_constructor_not):
                 if convert_none:
                     return negate(node)
                 else:
-                    return ql.Compare(
-                        node, [strong_qst()], [_constructor_from_value(value)]
-                    )
+                    return ql.Compare(node, [strong_qst()], [_constructor_from_value(value)])
             else:
                 return ql.Compare(node, [weak_qst()], [_constructor_from_value(value)])
         else:
@@ -878,9 +862,7 @@ def _get_constructor_alt(weak_qst, strong_qst, negate=_constructor_not):
                 if convert_none:
                     body = negate(which)
                 else:
-                    body = ql.Compare(
-                        which, [strong_qst()], [_constructor_from_value(value)]
-                    )
+                    body = ql.Compare(which, [strong_qst()], [_constructor_from_value(value)])
             else:
                 body = ql.Compare(which, [weak_qst()], [_constructor_from_value(value)])
             lambda_ast = ql.Lambda(ql.make_arguments("x"), body)
@@ -899,9 +881,7 @@ _constructor_ge = _get_constructor(ql.GtE)
 _constructor_gt = _get_constructor(ql.Gt)
 
 
-def _constructor_in(
-    this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None
-):
+def _constructor_in(this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None):
     """Create the AST for a term `(fielname, '[not ]in', value)`.
 
     The difference with `standard <_get_constructor>`:func: constructors is
@@ -918,9 +898,7 @@ def _constructor_in(
     )
 
 
-def _constructor_not_in(
-    this, fieldname, value, *, convert_false=None, convert_none=None
-):
+def _constructor_not_in(this, fieldname, value, *, convert_false=None, convert_none=None):
     return _constructor_in(
         this,
         fieldname,
@@ -931,9 +909,7 @@ def _constructor_not_in(
     )
 
 
-def _constructor_like(
-    this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None
-):
+def _constructor_like(this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None):
     """Create the AST for a term `(fielname, '[not ]like', value)`.
 
     We use 'in' ('not in') Python operators; so the procedure AST are those
@@ -964,9 +940,7 @@ def _constructor_like(
         return ql.Compare(_constructor_from_value(value), [qst()], [node])
 
 
-def _constructor_not_like(
-    this, fieldname, value, *, convert_false=None, convert_none=None
-):
+def _constructor_not_like(this, fieldname, value, *, convert_false=None, convert_none=None):
     return _constructor_like(
         this,
         fieldname,
@@ -977,9 +951,7 @@ def _constructor_not_like(
     )
 
 
-def _constructor_ilike(
-    this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None
-):
+def _constructor_ilike(this, fieldname, value, qst=ql.In, *, convert_false=None, convert_none=None):
     assert qst in (ql.In, ql.NotIn)
     node = _constructor_getattr(ql.Name(this, ql.Load()), fieldname)
     if isinstance(node, tuple):
@@ -988,15 +960,11 @@ def _constructor_ilike(
         lambda_arg = ql.Lambda(
             ql.make_arguments("r"),
             ql.Compare(
-                ql.make_argless_call(
-                    _constructor_getattr(_constructor_from_value(value), "lower")
-                ),
+                ql.make_argless_call(_constructor_getattr(_constructor_from_value(value), "lower")),
                 [qst()],
                 [
                     ql.make_argless_call(
-                        ql.make_attr(
-                            ql.make_attr(ql.Name("r", ql.Load()), field), "lower"
-                        )
+                        ql.make_attr(ql.make_attr(ql.Name("r", ql.Load()), field), "lower")
                     )
                 ],
             ),
@@ -1008,17 +976,13 @@ def _constructor_ilike(
         node = _constructor_getattr(node, "lower")
         fn = ql.make_argless_call(node)
         return ql.Compare(
-            ql.make_argless_call(
-                _constructor_getattr(_constructor_from_value(value), "lower")
-            ),
+            ql.make_argless_call(_constructor_getattr(_constructor_from_value(value), "lower")),
             [qst()],
             [fn],
         )
 
 
-def _constructor_not_ilike(
-    this, fieldname, value, *, convert_false=None, convert_none=None
-):
+def _constructor_not_ilike(this, fieldname, value, *, convert_false=None, convert_none=None):
     return _constructor_ilike(
         this,
         fieldname,

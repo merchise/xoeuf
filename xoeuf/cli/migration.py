@@ -113,8 +113,7 @@ def _get_content(src, dst, file_name, fields):
     fields_pretty_print = io.BytesIO()
     pprint.pprint(tuple(fields), stream=fields_pretty_print)
     name = textwrap.fill(
-        "Migrate (some) fields reference from %s to %s"
-        % (src.module_name, src.module_name),
+        "Migrate (some) fields reference from %s to %s" % (src.module_name, src.module_name),
         78,
     )
     today = date.today()
@@ -171,12 +170,8 @@ class Migration(Command):
                 type=DB,
                 help="Name of the database used used to check actual status.",
             )
-            res.add_argument(
-                "src_module", type=Module, help="Name of the source module"
-            )
-            res.add_argument(
-                "dst_module", type=Module, help="Name of the destination module"
-            )
+            res.add_argument("src_module", type=Module, help="Name of the source module")
+            res.add_argument("dst_module", type=Module, help="Name of the destination module")
             res.add_argument(
                 "-f",
                 "--fields",
@@ -210,9 +205,7 @@ class Migration(Command):
         if not fields:
             raise ValueError("No field selected")
         file_name = options.dst_module.get_file_name(options.src_module)
-        content = _get_content(
-            options.src_module, options.dst_module, file_name, fields
-        )
+        content = _get_content(options.src_module, options.dst_module, file_name, fields)
         try:
             write_migration(options.dst_module.get_migration_path(), file_name, content)
         except Exception as e:
@@ -267,24 +260,20 @@ class Module(object):
     def load_module(self, db):
         with db.db(transactional=True) as cr:
             obj = db.db.models.ir_module_module
-            m_id = obj.search(
-                cr, SUPERUSER_ID, [("name", "=", self.module_name)], limit=1
-            )
+            m_id = obj.search(cr, SUPERUSER_ID, [("name", "=", self.module_name)], limit=1)
             if m_id:
                 module = obj.browse(cr, SUPERUSER_ID, m_id)
             if not module:
                 raise ValueError("Not found module %s." % self.module_name)
             if module.state == "uninstalled":
-                raise ValueError(
-                    "Module %s is not already installed." % self.module_name
-                )
+                raise ValueError("Module %s is not already installed." % self.module_name)
             write(module.state + module.latest_version)
             self.module = module
             self.get_new_version()
 
     def get_new_version(self):
         if self.latest_version:
-            current_version = [v for v in self.latest_version.split(".")]
+            current_version = list(self.latest_version.split("."))
             try:
                 minor_version = int(current_version[-1])
                 current_version[-1] = str(minor_version + 1)

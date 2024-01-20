@@ -61,13 +61,9 @@ class TestPropertyDepends(TransactionCase):
         # but if we change the value again, the Property must trigger the
         # recomputation itself:
         obj.price = value2
-        price_display_stored = obj.read(("price_display_stored",))[0][
-            "price_display_stored"
-        ]
+        price_display_stored = obj.read(("price_display_stored",))[0]["price_display_stored"]
         self.assertEqual(price_display_stored, "$ {:.2f}".format(value2))
 
         obj.price = Undefined
-        price_display_stored = obj.read(("price_display_stored",))[0][
-            "price_display_stored"
-        ]
+        price_display_stored = obj.read(("price_display_stored",))[0]["price_display_stored"]
         self.assertEqual(price_display_stored, "--")
