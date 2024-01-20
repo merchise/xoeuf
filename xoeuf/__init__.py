@@ -14,6 +14,7 @@ The name is composed by:
   * œuf: Is "egg" in french.
 
 """
+from . import models  # bootstrap 'xoeuf.odoo'
 from . import signals
 from .osv import orm  # bootstrap 'orm' (injects _RELATED in XMLs 'eval')
 
