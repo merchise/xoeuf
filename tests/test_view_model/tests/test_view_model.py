@@ -16,9 +16,9 @@ class TestViewModel(TransactionCase):
         self.assertEqual(self.env["view_model2"]._module, "test_view_model")
 
     def test_mixins(self):
-        is_example_mixin = lambda model_name: getattr(
-            self.env[model_name], "is_example_mixin", False
-        )
+        def is_example_mixin(model_name):
+            return getattr(self.env[model_name], "is_example_mixin", False)
+
         self.assertTrue(is_example_mixin("view_model1"))
         self.assertFalse(is_example_mixin("view_model2"))
         self.assertFalse(is_example_mixin("test_view_model.model"))

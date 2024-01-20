@@ -52,6 +52,4 @@ class TimeDelta(Float):
         if isinstance(value, timedelta):
             # Ensure pass value as float val.
             value = value.total_seconds()
-        return getattr(super(TimeDelta, self), "convert_to_%s" % method)(
-            value, *args, **kwargs
-        )
+        return getattr(super(TimeDelta, self), "convert_to_%s" % method)(value, *args, **kwargs)

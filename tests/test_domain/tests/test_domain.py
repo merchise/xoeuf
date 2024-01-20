@@ -68,15 +68,11 @@ def domains(draw, fields=None, min_size=1, max_size=10):
 class TestDomain(BaseCase):
     @given(domains())
     def test_first_normal_form_idempotency(self, domain):
-        self.assertEqual(
-            domain.first_normal_form, domain.first_normal_form.first_normal_form
-        )
+        self.assertEqual(domain.first_normal_form, domain.first_normal_form.first_normal_form)
 
     @given(domains())
     def test_second_normal_form_idempotency(self, domain):
-        self.assertEqual(
-            domain.second_normal_form, domain.second_normal_form.second_normal_form
-        )
+        self.assertEqual(domain.second_normal_form, domain.second_normal_form.second_normal_form)
 
     @given(domains())
     def test_versions_equivalency(self, domain):
@@ -109,8 +105,7 @@ class TestDomain(BaseCase):
             )
         self.assertTrue(
             all(
-                odoo_expr.is_leaf(term) or odoo_expr.is_operator(term)
-                for term in domain.simplified
+                odoo_expr.is_leaf(term) or odoo_expr.is_operator(term) for term in domain.simplified
             )
         )
 
@@ -369,9 +364,7 @@ def get_model_domain_machine(this):
         @rule(
             age=ages,
             op=operators,
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_parent_age(self, age, op, path):
             attr = ".".join(path) + ".age"
@@ -389,9 +382,7 @@ def get_model_domain_machine(this):
 
         @rule(
             ages=s.lists(ages),
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_parent_ages(self, ages, path):
             attr = ".".join(path) + ".age"
@@ -409,9 +400,7 @@ def get_model_domain_machine(this):
 
         @rule(
             ages=s.lists(ages),
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_path_not_ages(self, ages, path):
             attr = ".".join(path) + ".age"
@@ -436,9 +425,7 @@ def get_model_domain_machine(this):
         @rule(
             name=names,
             op=all_operators,
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_path_name(self, name, op, path):
             attr = ".".join(path) + ".name"
@@ -456,9 +443,7 @@ def get_model_domain_machine(this):
 
         @rule(
             names=s.lists(names),
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_path_names(self, names, path):
             attr = ".".join(path) + ".name"
@@ -476,9 +461,7 @@ def get_model_domain_machine(this):
 
         @rule(
             names=s.lists(names),
-            path=s.lists(
-                s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4
-            ),
+            path=s.lists(s.sampled_from(["parent_id", "children_ids"]), min_size=1, max_size=4),
         )
         def find_by_path_not_names(self, names, path):
             attr = ".".join(path) + ".name"
@@ -494,9 +477,7 @@ class TestConsistencyOfFilters(TransactionCase):
     def assertEqualRecordset(self, rs1, rs2):
         ours = rs1 - rs2
         theirs = rs2 - rs1
-        self.assertEqual(
-            rs1, rs2, msg="ours: {0!r}; theirs: {1!r}".format(ours, theirs)
-        )
+        self.assertEqual(rs1, rs2, msg="ours: {0!r}; theirs: {1!r}".format(ours, theirs))
 
     def test_consistency_of_domains(self):
         run_state_machine_as_test(get_model_domain_machine(self))

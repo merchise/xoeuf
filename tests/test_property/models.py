@@ -53,9 +53,7 @@ class PriceMixin(models.AbstractModel):
             self._db_price = None
 
     price_display = fields.Char(compute="_compute_price", inverse="_set_price")
-    price_display_stored = fields.Char(
-        compute="_compute_price", inverse="_set_price", store=True
-    )
+    price_display_stored = fields.Char(compute="_compute_price", inverse="_set_price", store=True)
 
     @api.one
     @api.depends("price")
@@ -158,9 +156,7 @@ class ObjectMixin(models.AbstractModel):
     def _del_result(self):
         self.thing = None
 
-    result = fields.Property(
-        getter=_get_result, setter=_set_result, deleter=_del_result
-    )
+    result = fields.Property(getter=_get_result, setter=_set_result, deleter=_del_result)
     del _get_result, _set_result, _del_result
 
 

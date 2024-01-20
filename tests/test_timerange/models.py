@@ -19,9 +19,7 @@ class TestTimeRange(models.Model):
     _name = "test.time.range"
 
     time_value = fields.Float()
-    range_value = fields.TimeRange(
-        time_field="time_value", selection=TIME_RANGE_SELECTION
-    )
+    range_value = fields.TimeRange(time_field="time_value", selection=TIME_RANGE_SELECTION)
     tz = fields.Char()
     datetime_value = fields.Datetime(default=lambda self: fields.Datetime.today())
     range_datetime = fields.TimeRange(

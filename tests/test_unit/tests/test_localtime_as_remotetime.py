@@ -36,9 +36,7 @@ class TestLocalAsRemote(BaseCase):
         _dt = normalize_datetime(_dt)
         self.assertEqual(
             _dt,
-            localtime_as_remotetime(
-                localtime_as_remotetime(_dt, from_tz, to_tz), to_tz, from_tz
-            ),
+            localtime_as_remotetime(localtime_as_remotetime(_dt, from_tz, to_tz), to_tz, from_tz),
         )
         self.assertEqual(
             _dt,

@@ -66,7 +66,8 @@ except ImportError:
         warnings.warn(
             "Trying to the profiler without the line_profiler package.  "
             "Are you trying to use the profiler in production?! "
-            "Don't do that EVER AGAIN!!"
+            "Don't do that EVER AGAIN!!",
+            stacklevel=1,
         )
         return func
 

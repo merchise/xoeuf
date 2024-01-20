@@ -84,12 +84,12 @@ def _reset_passwords(self, security_level, verbose, check=None):
                         ">>> id: %(id)s, login: %(login)s, "
                         "name: %(name)s, "
                         "password: '%(password)s'"
-                        % dict(
-                            id=user.id,
-                            login=user.login,
-                            name=user.name,
-                            password=password,
-                        )
+                        % {
+                            "id": user.id,
+                            "login": user.login,
+                            "name": user.name,
+                            "password": password,
+                        }
                     )
                 )
 

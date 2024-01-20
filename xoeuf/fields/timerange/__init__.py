@@ -66,17 +66,15 @@ class TimeRange(Selection):
 
     _slots = {"time_field": None, "readonly": True, "tzone_field": None}
 
-    def __init__(
-        self, time_field, tzone_field=None, selection=DEFAULT, *args, **kwargs
-    ):
+    def __init__(self, time_field, tzone_field=None, selection=DEFAULT, *args, **kwargs):
         from xotl.tools.symbols import Unset
 
-        kwargs = dict(dict(copy=False, readonly=True), **kwargs)
-        super(TimeRange, self).__init__(
+        kwargs = dict({"copy": False, "readonly": True}, **kwargs)
+        super().__init__(
+            *args,
             time_field=time_field or Unset,
             tzone_field=tzone_field or Unset,
             selection=selection,
-            *args,
             **kwargs,
         )
         self.time_field = time_field or Unset
@@ -95,8 +93,7 @@ class TimeRange(Selection):
         field = model._fields[time_field]
         if not isinstance(field, (Datetime, Float)):
             raise TypeError(
-                "Type of time_field must be Datetime or Float, "
-                "instead of %s." % type(field)
+                "Type of time_field must be Datetime or Float, " "instead of %s." % type(field)
             )
 
     def _setup_regular_full(self, env):
@@ -120,9 +117,7 @@ class TimeRange(Selection):
         # translate selection labels
         if env.lang:
             name = "%s,%s" % (self.model_name, self.name)
-            translate = partial(
-                env["ir.translation"]._get_source, name, "selection", env.lang
-            )
+            translate = partial(env["ir.translation"]._get_source, name, "selection", env.lang)
             return [
                 (value, translate(label), start, end if label else label)
                 for value, label, start, end in selection
@@ -135,9 +130,7 @@ class TimeRange(Selection):
         selection = self.selection
         if env.lang and isinstance(selection, list):
             name = "%s,%s" % (self.model_name, self.name)
-            translate = partial(
-                env["ir.translation"]._get_source, name, "selection", env.lang
-            )
+            translate = partial(env["ir.translation"]._get_source, name, "selection", env.lang)
             return {
                 value: translate(label) if label else label
                 for value, label, start, end in selection

@@ -1,16 +1,82 @@
-[tool.black]
-line-length = 88
-target-version = ['py36', 'py37', 'py38']
-include = '\.pyi?$'
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.mypy_cache
-  | \.tox
-  | _build
-  | build
-  | dist
-  | _version.py
-)/
-'''
+[project]
+name = "xoeuf"
+description = "Basic utilities for OpenERP Open Object Services"
+authors = [
+    { name = "Merchise Autrement [~º/~]", email = "" }
+]
+dependencies = [
+    "celery>=4.1.0, <6",
+    "decorator>=4.0, <4.2",
+    "expiringdict~=1.2.0",
+    "pytz",
+    "xotl.tools>=1.9.0, <2.3",
+    "ipython",
+]
+readme = "README.rst"
+requires-python = ">=3.8"
+license = "MIT"
+dynamic = [
+    "version",
+    "urls",
+]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "xoeuf/_version.py"
+
+[tool.hatch.metadata.hooks.vcs]
+
+
+[project.scripts]
+xoeuf = "xoeuf.cli.server:server"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "sphinx>=7.1.2",
+    "hypothesis>=3.7.0, <6.38",
+    "furo>=2023.9.10",
+    "ruff>=0.1.14",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["xoeuf"]
+
+
+[tool.ruff]
+ignore = [
+  "E501", # line too long
+  "B011", # 'assert False' is fine.
+  "E741", # do not use variables named ‘l’, ‘O’, or ‘I’
+  "C901", # fn is too complex
+]
+select = [
+  "C",
+  "E",
+  "F",
+  "W",
+  "B",
+  "INT",
+  "RUF008",
+  "W191",   # Indentation contains tabs
+  "W605",   # Invalid escape sequence
+  "W291",   # Trailing whitespace
+  "W292",   # No newline at end of file
+  "W293",   # Blank line contains whitespace
+]
+line-length = 100
+target-version = "py38"
+
+extend-exclude = ["__manifest__.py", "xoeuf/_version.py"]
+
+[tool.ruff.format]
+exclude = ["xoeuf/_version.py"]

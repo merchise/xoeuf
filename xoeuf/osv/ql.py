@@ -49,8 +49,8 @@ class PyASTNode(object):
             self, other = type(self), type(other)
             attrs = ("__name__",)
             res = issubclass(self, other) or issubclass(other, self)
-        get_from_source = lambda a: getattr(self, a, Unset)
-        get_from_target = lambda a: getattr(other, a, Unset)
+        get_from_source = lambda a: getattr(self, a, Unset)  # noqa
+        get_from_target = lambda a: getattr(other, a, Unset)  # noqa
         while res and (i < len(attrs)):
             attr = attrs[i]
             sattr = get_from_source(attr)
@@ -85,9 +85,7 @@ class PyASTNode(object):
             else:
                 res.append(" " * 3 * depth + r(child))
             fields = getattr(child, "_fields", [])
-            grandchildren = [
-                (getattr(child, f, Missing(f)), f, depth + 1) for f in fields
-            ]
+            grandchildren = [(getattr(child, f, Missing(f)), f, depth + 1) for f in fields]
             if grandchildren:
                 # If any grandchild is a list 'expand it', this helps to get a
                 # nicer visualization.
@@ -157,9 +155,7 @@ while _current < len(_nodes):
 
     globals()["_PyAst_%s" % _node.__name__] = _node
     # Has a constructor create the class for comparing
-    globals()[_node.__name__] = cls = new_class(
-        _node.__name__, bases=(_node, PyASTNode)
-    )
+    globals()[_node.__name__] = cls = new_class(_node.__name__, bases=(_node, PyASTNode))
     cls.__module__ = "qst"
     __all__.append(_node.__name__)
 
@@ -223,7 +219,7 @@ class SetAttributesVisitor(pyast.NodeVisitor):
     def generic_visit(self, node):
         from xotl.tools.symbols import Unset
 
-        get = lambda a: getattr(node, a, Unset)
+        get = lambda a: getattr(node, a, Unset)  # noqa
         for attr, val in self.attrs.items():
             if get(attr) is Unset:
                 setattr(node, attr, val)

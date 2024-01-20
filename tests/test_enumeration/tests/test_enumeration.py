@@ -87,12 +87,8 @@ class TestEnum(TransactionCase):
             obj = self.EnumModel.create({"car": CARS.FORD})
             self.EnumModel.invalidate_cache()
             self.assertEqual(self.EnumModel.search([("car", "=", CARS.FORD)]), obj)
-            self.assertEqual(
-                self.EnumModel.search([("car", "=", CARS.CHEV)], count=True), 0
-            )
-            self.assertEqual(
-                self.EnumModel.search([("car", "in", (CARS.FORD, CARS.CHEV))]), obj
-            )
+            self.assertEqual(self.EnumModel.search([("car", "=", CARS.CHEV)], count=True), 0)
+            self.assertEqual(self.EnumModel.search([("car", "in", (CARS.FORD, CARS.CHEV))]), obj)
             with self.assertRaises(ValueError):
                 self.EnumModel.search([("car", "=", 1)])
 

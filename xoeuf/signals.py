@@ -105,10 +105,10 @@ class HookDefinition(object):
                     logger.debug(
                         "Accepting hook %s as live",
                         hook,
-                        extra=dict(
-                            registry_ready=registry_ready,
-                            registry_required=hook.require_registry,
-                        ),
+                        extra={
+                            "registry_ready": registry_ready,
+                            "registry_required": hook.require_registry,
+                        },
                     )
                     result.append(hook)
         return result
@@ -205,7 +205,7 @@ class Wrapping(HookDefinition):
         result = method(sender, *args, **kwargs)
         for wrapper in wrappers:
             try:
-                wrapper.send(dict(result=result))
+                wrapper.send({"result": result})
                 logger.error("Wrapper %s failed to yield only once")
             except StopIteration:
                 pass
@@ -222,9 +222,7 @@ class Hook(object):
 
         hash(func)  # Fail if func is not hashable
         self.func = func
-        smart_copy(
-            kwargs, self.__dict__, defaults={"require_registry": True, "sender": None}
-        )
+        smart_copy(kwargs, self.__dict__, defaults={"require_registry": True, "sender": None})
 
     def __repr__(self):
         return "<Hook for %r>" % self.func
@@ -642,15 +640,29 @@ super_search = models.BaseModel.search
 
 @api.model
 @wraps(super_fields_view_get)
-def _fvg_for_signals(
-    self, view_id=None, view_type="form", toolbar=False, submenu=False
-):
-    kwargs = dict(
-        view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
+def _fvg_for_signals(self, view_id=None, view_type="form", toolbar=False, submenu=False):
+    pre_fields_view_get.send(
+        sender=self,
+        view_id=view_id,
+        view_type=view_type,
+        toolbar=toolbar,
+        submenu=submenu,
     )
-    pre_fields_view_get.send(sender=self, **kwargs)
-    result = super_fields_view_get(self, **kwargs)
-    post_fields_view_get.safe_send(sender=self, result=result, **kwargs)
+    result = super_fields_view_get(
+        self,
+        view_id=view_id,
+        view_type=view_type,
+        toolbar=toolbar,
+        submenu=submenu,
+    )
+    post_fields_view_get.safe_send(
+        sender=self,
+        result=result,
+        view_id=view_id,
+        view_type=view_type,
+        toolbar=toolbar,
+        submenu=submenu,
+    )
     return result
 
 
@@ -701,7 +713,7 @@ def _write_for_wrappers(self, vals):
 @wraps(super_search)
 def _search_for_signals(self, args, offset=0, limit=None, order=None, count=False):
     query = list(args)
-    kw_args = dict(offset=offset, limit=limit, order=order, count=count)
+    kw_args = {"offset": offset, "limit": limit, "order": order, "count": count}
     pre_search.send(self, query=query, kw_args=kw_args)
     result = super_search(self, query, **kw_args)
     post_search.safe_send(self, query=query, kw_args=kw_args, result=result)

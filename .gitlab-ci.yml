@@ -17,13 +17,12 @@ stages:
 .x-chaging-doc-or-code: &changing-code-or-doc
   changes:
     - .gitlab-ci.yml
-    - 'docs/themes/**/*'
     - docs/**/*.py
     - docs/**/*.rst
     - tests/**/*.py
     - xoeuf/**/*.py
-    - setup.py
-    - setup.cfg
+    - requirements.lock
+    - requirements-dev.lock
     - pyproject.toml
 
 .x-when-updating-code: &when-updating-code
@@ -35,38 +34,37 @@ stages:
     - .gitlab-ci.yml
     - tests/**/*.py
     - xoeuf/**/*.py
-    - setup.py
-    - setup.cfg
+    - requirements.lock
+    - requirements-dev.lock
     - pyproject.toml
 
 
-check code smells (with Bugbear and Python 3.8):
-  interruptible: true
-  image: python:3.8-alpine
-  stage: check
-  script:
-    - |
-      apk add git
-      pip install 'flake8-bugbear~=20.1' 'xoutil~=2.1' merchise.lint>=0.16 git+https://github.com/pycqa/pyflakes@4ed1ba41d1406dbb6c9ffbd369c2f523c2dc48f3
-      merchise_lint
-  only:
-    <<: *when-updating-code
-
-check formatting with black:
+check code smells:
   interruptible: true
   image: python:3.8
   stage: check
   script:
-    - pip install 'black==22.3.0'
-    - black --check xoeuf/
+    - |
+      pip install -r requirements-dev.lock
+      ruff check xoeuf/ tests/
+  only:
+    <<: *when-updating-code
+
+check formatting with ruff:
+  interruptible: true
+  image: python:3.8
+  stage: check
+  script:
+    - pip install -r requirements-dev.lock
+    - ruff format --check xoeuf/ tests/
   only:
     <<: *when-updating-code
 
 .run_tests: &run_tests
   interruptible: true
   needs:
-    - check code smells (with Bugbear and Python 3.8)
-    - check formatting with black
+    - check code smells
+    - check formatting with ruff
   image: python:${PYTHON_VERSION}
   services:
     - name: "registry.merchise.org/provision/pg-testing:postgis-10-3.2-alpine"
@@ -111,19 +109,28 @@ run all tests:
       - PYTHON_VERSION: ["3.8"]
         ODOO_VERSION: "12"
 
-build distributions:
-  image: python:3.8-alpine
+.x-build: &build
+  image: python:3.8
   stage: build
   script:
-    - apk add git
     - rm -f dist/*
-    - python setup.py sdist
-    - python setup.py bdist_wheel
+    - apt-get update && apt-get install -y build-essential git
+    - pip install hatch
+    - hatch build
   artifacts:
     paths:
       - dist/
+
+build distributions:
+  <<: *build
   only:
     <<: *when-releasing
+
+check build:
+  <<: *build
+  needs: []
+  only:
+    <<: *when-updating-code
 
 
 publish pypi:
@@ -169,9 +176,9 @@ publish pypi:
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=6,<6.38"
       pip install -e .
+
       cd ../../
-      pip install -e .
-      pip install 'Sphinx>=4.4.0,<5.0'
+      pip install -r requirements-dev.lock
       make -C docs/ html
   artifacts:
     paths:

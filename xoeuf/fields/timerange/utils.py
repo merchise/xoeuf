@@ -35,14 +35,12 @@ except ImportError:
             try:
                 return instance.__dict__[self.name]
             except KeyError:
-                raise AttributeError(self.name)
+                raise AttributeError(self.name) from None
 
         def __set__(self, instance, value):
             if value in (None, False):
                 if not self.nullable:
-                    raise ValueError(
-                        "Setting None to a non nullable attribute %r" % self.name
-                    )
+                    raise ValueError("Setting None to a non nullable attribute %r" % self.name)
             elif isinstance(value, str):
                 if "." in value:
                     fmt = "%H:%M:%S.%f"
@@ -52,9 +50,7 @@ except ImportError:
                     fmt = "%H:%M"
                 value = datetime.strptime(value, fmt).time()
             elif not isinstance(value, time):
-                raise TypeError(
-                    "Either time or str expected. Got %r" % type(value).__name__
-                )
+                raise TypeError("Either time or str expected. Got %r" % type(value).__name__)
             instance.__dict__[self.name] = value
 
         def __delete__(self, instance):

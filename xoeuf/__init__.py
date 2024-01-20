@@ -14,22 +14,30 @@ The name is composed by:
   * œuf: Is "egg" in french.
 
 """
-from . import modules  # noqa; bootstrap 'xoeuf.odoo'
-from . import signals  # noqa; bootstrap signals
+from . import signals
 from .osv import orm  # bootstrap 'orm' (injects _RELATED in XMLs 'eval')
 
-from odoo import SUPERUSER_ID  # noqa
-from odoo.release import version_info as ODOO_VERSION_INFO  # noqa
-
-MAJOR_ODOO_VERSION = ODOO_VERSION_INFO[0]  # noqa
+from odoo import SUPERUSER_ID
+from odoo.release import version_info as ODOO_VERSION_INFO
 
 # Bootstrap fields; otherwise they won't appear in the FIELD_TYPES in
 # ir_model.py
-from . import fields  # noqa
+from . import fields
 
-from ._version import get_versions
+MAJOR_ODOO_VERSION = ODOO_VERSION_INFO[0]
+
+try:
+    from ._version import version as __version__
+except ImportError:
+    __version__ = "dev"
 
 del orm
 
-__version__ = get_versions()["version"]
-del get_versions
+__all__ = (
+    "models",
+    "signals",
+    "fields",
+    "SUPERUSER_ID",
+    "ODOO_VERSION_INFO",
+    "MAJOR_ODOO_VERSION",
+)

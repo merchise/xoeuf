@@ -91,9 +91,7 @@ class PropertyField(Base):
     }
     type = "python-property"  # needed to satisfy ir.models.field
 
-    def __init__(
-        self, getter, setter=None, deleter=None, onsetup=None, memoize=False, **kwargs
-    ):
+    def __init__(self, getter, setter=None, deleter=None, onsetup=None, memoize=False, **kwargs):
         # Notice we don't abide by the expected fields signature.  Instead, we
         # require one that is compatible with `property`; but we ensure that
         # Odoo sees this Property as normal field with custom attributes.  We
