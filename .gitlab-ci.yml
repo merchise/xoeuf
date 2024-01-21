@@ -139,7 +139,8 @@ check build:
   needs: []
   only:
     <<: *when-updating-code
-
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 publish pypi:
   image: python:3.8
