@@ -52,3 +52,6 @@ I recommend the following docker setup::
        --network host \
        -v /var/run/postgresql:/var/run/postgresql \
        "$image" 
+
+
+.. _rye: https://rye-up.com/
