@@ -25,18 +25,20 @@ stages:
     - requirements-dev.lock
     - pyproject.toml
 
-.x-when-updating-code: &when-updating-code
-  refs:
-    - main
-    - /^stable-/
-    - merge_requests
-  changes:
+.x-updating-code: &updating-code
     - .gitlab-ci.yml
     - tests/**/*.py
     - xoeuf/**/*.py
     - requirements.lock
     - requirements-dev.lock
     - pyproject.toml
+
+.x-whenupdating-code: &when-updating-code
+    refs:
+      - main
+      - /^stable-/
+      - merge_requests
+    changes: *updating-code
 
 
 check code smells:
@@ -49,6 +51,8 @@ check code smells:
       ruff check xoeuf/ tests/
   only:
     <<: *when-updating-code
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 check formatting with ruff:
   interruptible: true
@@ -59,6 +63,8 @@ check formatting with ruff:
     - ruff format --check xoeuf/ tests/
   only:
     <<: *when-updating-code
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 .run_tests: &run_tests
   interruptible: true
@@ -95,8 +101,6 @@ check formatting with ruff:
       export ADDONS=`ls tests/ | grep ^test_ | xargs | tr " " ","`
       cd vendor/odoo
       ../../runtests-odoo.sh -i $ADDONS --db_host=$POSTGRES_HOST --db_password=$POSTGRES_PASSWORD --db_user=$POSTGRES_USER
-  only:
-    <<: *when-updating-code
 
 run all tests:
   <<: *run_tests
@@ -108,6 +112,10 @@ run all tests:
     matrix:
       - PYTHON_VERSION: ["3.8"]
         ODOO_VERSION: "12"
+  only:
+    <<: *when-updating-code
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 .x-build: &build
   image: python:3.8
@@ -141,6 +149,8 @@ publish pypi:
     - twine upload -u "$PYPI_USERNAME" -p "$PYPI_PASSWORD" dist/*
   only:
     <<: *when-releasing
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
   needs:
     - build distributions
   environment:
