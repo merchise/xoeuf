@@ -39,3 +39,4 @@ eproject.cfg
 .python-version
 
 xoeuf/_version.py
+vendor/
