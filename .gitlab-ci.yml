@@ -117,7 +117,7 @@ run all tests:
     variables:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
 
-.x-build: &build
+.x-build: &with-build
   image: python:3.8
   stage: build
   script:
@@ -130,12 +130,13 @@ run all tests:
       - dist/
 
 build distributions:
-  <<: *build
+  <<: *with-build
   only:
     <<: *when-releasing
 
 check build:
-  <<: *build
+  <<: *with-build
+  interruptible: true
   needs: []
   only:
     <<: *when-updating-code
@@ -160,7 +161,6 @@ publish pypi:
 
 
 .x-build-doc: &with-build-documentation
-  interruptible: true
   image: python:3.8
   variables:
     PYTHON_VERSION: "3.8"
