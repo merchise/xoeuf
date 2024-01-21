@@ -25,7 +25,7 @@ STDOUT="/tmp/odoo-$HASH.log"
 
 echo "Logs in $STDOUT"
 
-ADDONS=''
+ADDONS=$(ls tests/ | grep ^test_ | xargs | tr " " ",")
 EXECUTABLE='xoeuf'
 current_dir=$(dirname $0)
 
