@@ -57,7 +57,7 @@ class TestOnupdate(TransactionCase):
 
     def test_onupdate_inherited_via_mixin(self):
         user = self.env.user
-        obj = self.env["text.onupdate.big.model"].create({"user_id": user.id})
+        obj = self.env["test.onupdate.big.model"].create({"user_id": user.id})
         user.name = name = "Johny"
         self.assertEqual(obj.name, "Updated: {name}".format(name=name))
 

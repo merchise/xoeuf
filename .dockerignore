@@ -1,0 +1,12 @@
+*.pyc
+*.pyo
+.gitlab-ci.yml
+__pycache__
+dist/
+.python-version
+xoeuf/_version.py
+vendor/
+Makefile
+docs
+.venv/
+.envrc

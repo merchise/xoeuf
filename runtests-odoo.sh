@@ -25,11 +25,50 @@ STDOUT="/tmp/odoo-$HASH.log"
 
 echo "Logs in $STDOUT"
 
-ADDONS=''
+ADDONS=$(ls tests/ | grep ^test_ | xargs | tr " " ",")
 EXECUTABLE='xoeuf'
 current_dir=$(dirname $0)
 
-echo "POSTGRES_HOST: $POSTGRES_HOST, POSTGRES_USER: $POSTGRES_USER, POSTGRES_PASSWORD: $POSTGRES_PASSWORD"
+while [ \! -z "$1" ]; do
+    case $1 in
+        --run-rye)
+            EXECUTABLE='rye run xoeuf'
+            ;;
+        --db_host=*)
+            POSTGRES_HOST="${1#*=}"
+            ARGS="$ARGS --db_host=$POSTGRES_HOST"
+            ;;
+        --db_password=*)
+            POSTGRES_PASSWORD="${1#*=}"
+            ARGS="$ARGS --db_password=$POSTGRES_PASSWORD"
+            ;;
+
+        --db_user=*)
+            POSTGRES_USER="${1#*=}"
+            ARGS="$ARGS --db_user=$POSTGRES_USER"
+            ;;
+
+        -i)
+            if [ -z "$2" ]; then
+                echo "$1 requires an argument"
+                exit 1;
+            fi
+            shift
+            ADDONS="$1"
+            ;;
+        -s)
+            STDOUT=''
+            ;;
+        --no-capture)
+            STDOUT=''
+            ;;
+        *)
+            ARGS="$ARGS $1"
+            ;;
+    esac
+    shift
+done
+
 
 function psql_wrapper() {
     cmd="$(which ${FUNCNAME[1]}) "
@@ -50,29 +89,7 @@ function dropdb() { `psql_wrapper $@`; }
 function createdb() { `psql_wrapper $@`; }
 function psql() { `psql_wrapper $@`; }
 
-while [ \! -z "$1" ]; do
-    case $1 in
-        -i)
-            shift
-            if [ -z "$1" ]; then
-                echo "-i requires an argument"
-                exit 1;
-            else
-                ADDONS="$1"
-            fi
-            ;;
-        -s)
-            STDOUT=''
-            ;;
-        --no-capture)
-            STDOUT=''
-            ;;
-        *)
-            ARGS="$ARGS $1"
-            ;;
-    esac
-    shift
-done
+
 
 # Just in case
 dropdb $DB 2>/dev/null
@@ -97,7 +114,7 @@ else
         $EXECUTABLE -d $DB --db-filter=^$DB\$ $ARGS
 fi
 
-egrep "(At least one test failed when loading the modules.|(ERROR|CRITICAL) $DB)" $STDOUT
+grep -E "(At least one test failed when loading the modules.|(ERROR|CRITICAL) $DB)" $STDOUT
 code=$?
 if (($code == 0 || $code == 2)); then
     CODE=1

@@ -71,3 +71,5 @@ vine==5.1.0
 wcwidth==0.2.13
 xotl-tools==2.2.5
 zipp==3.17.0
+# The following packages are considered to be unsafe in a requirements file:
+pip==23.3.2
