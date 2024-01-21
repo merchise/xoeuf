@@ -28,9 +28,9 @@ Other documents
    :glob:
    :maxdepth: 1
 
+   developing              
    history
    license
-
 
 
 Indices and tables
