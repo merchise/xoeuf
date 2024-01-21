@@ -11,6 +11,12 @@ to support Odoo 12 during the entire lifespan of xoeuf 3.x.
 
 This should be last series that support Odoo 12.
 
+Unreleased.  Release 3.0.2
+--------------------------
+
+- No visible changes.  Just updated our development infrastructure.
+
+
 2023-03-18.  Release 3.0.1
 --------------------------
 
