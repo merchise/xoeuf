@@ -42,7 +42,7 @@ class Users(models.Model):
 
 
 class TextOnUpdateMixin(models.AbstractModel):
-    _name = "text.onupdate.mixin"
+    _name = "test.onupdate.mixin"
 
     user_id = fields.Many2one("res.users")
     name = fields.Char()
@@ -54,5 +54,5 @@ class TextOnUpdateMixin(models.AbstractModel):
 
 
 class Model(models.Model):
-    _name = "text.onupdate.big.model"
+    _name = "test.onupdate.big.model"
     _inherit = TextOnUpdateMixin._name
