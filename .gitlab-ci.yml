@@ -261,7 +261,8 @@ pages:
     <<: *changing-code-or-doc
     refs:
       - /^stable-/
-
+    variables:
+      - $CI_SERVER_HOST == "gitlab.com"
 
 automatically remove MR documentation from our RTD server after 4 hours:
   stage: clean up
