@@ -7,3 +7,4 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 from . import test_api  # noqa
+from . import test_api_onupdate  # noqa
