@@ -1,12 +1,20 @@
-SHELL := /bin/bash
+RYE_EXEC ?= rye run
 PATH := $(HOME)/.rye/shims:$(PATH)
+SHELL := /bin/bash
 
-PYTHON_FILES := $(shell find xoeuf/ -type f -name '*.py')
+PYTHON_FILES := $(shell find src/ -type f -name '*.py')
 RUN_RYE ?=
 EXEC ?= rye run
 
+ODOO_VERSION ?= 12.0
+PYTHON_VERSION ?= 3.8
+
 install:
+	rye self update || curl -sSf https://rye-up.com/get | bash
+	rye pin --relaxed $(PYTHON_VERSION)
 	rye sync
+	cp -f requirements-dev.lock requirements-dev-py$$(echo $(PYTHON_VERSION) | sed "s/\.//").lock
+
 	if [ -d ../odoo ]; then \
 		$(EXEC) pip install -r ../odoo/requirements.txt; \
 		$(EXEC) pip install -e ../odoo; \
@@ -15,16 +23,16 @@ install:
 
 
 LINT_TOOL ?= ruff
-LINT_PATHS ?= xoeuf/ tests/
+LINT_PATHS ?= src/
 
 format:
-	@$(EXEC) $(LINT_TOOL) check --fix --preview $(LINT_PATHS)
+	@$(EXEC) $(LINT_TOOL) check --fix $(LINT_PATHS)
 	@$(EXEC) $(LINT_TOOL) format $(LINT_PATHS)
 .PHONY: format-python
 
 lint:
+	@$(EXEC) $(LINT_TOOL) check $(LINT_PATHS)
 	@$(EXEC) $(LINT_TOOL) format --check $(LINT_PATHS)
-	@$(EXEC) $(LINT_TOOL) check --preview $(LINT_PATHS)
 .PHONY: lint
 
 
@@ -33,8 +41,6 @@ POSTGRES_USER ?= $(USER)
 POSTGRES_PASSWORD ?= $(USER)
 POSTGRES_HOST ?= pg
 ODOO_MIRROR ?= https://gitlab.com/merchise-autrement/odoo.git
-PYTHON_VERSION ?= 3.8
-ODOO_VERSION ?= 12.0
 DOCKER_NETWORK_ARG ?= --network=host
 RUN_RYE_ARG ?=
 
@@ -48,7 +54,7 @@ docker:
 
 test: docker
 	docker run --rm -it xoeuf /src/xoeuf/runtests-odoo.sh \
-        -i $(ls tests/ | grep ^test_ | xargs | tr " " ",") \
+        -i $(ls src/tests/ | grep '^test_' | xargs | tr " " ",") \
 		$(DOCKER_NETWORK_ARG) \
         --db_host=$(POSTGRES_HOST) \
         --db_user=$(POSTGRES_USER) \
@@ -58,7 +64,7 @@ docker:
 	echo ""
 
 test: docker
-	./runtests-odoo.sh $(RUN_RYE_ARG) -i $$(ls tests/ | grep ^test_ | xargs | tr " " ",")
+	./runtests-odoo.sh $(RUN_RYE_ARG) -i $$(ls src/tests/ | grep '^test_' | xargs | tr " " ",")
 endif
 
 .PHONY: test docker
