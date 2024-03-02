@@ -1,7 +1,6 @@
 # Makes sure modules are patched before any command-related code is
 # invoked.
-DEFAULT_COMMAND = str("server")
-
+DEFAULT_COMMAND = "server"
 
 from xotl.tools.cli import Command as BaseCommand  # noqa
 
