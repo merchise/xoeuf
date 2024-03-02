@@ -26,18 +26,16 @@ install:
 .PHONY: install
 
 
-LINT_TOOL ?= ruff
-LINT_PATHS ?= src/
-
 format:
-	@$(EXEC) $(LINT_TOOL) check --fix $(LINT_PATHS)
-	@$(EXEC) $(LINT_TOOL) format $(LINT_PATHS)
-	@$(EXEC) isort $(LINT_PATHS)
+	@$(EXEC) isort src/
+	@$(EXEC) ruff --fix src/
+	@$(EXEC) ruff format src/
 .PHONY: format-python
 
 lint:
-	@$(EXEC) $(LINT_TOOL) check $(LINT_PATHS)
-	@$(EXEC) $(LINT_TOOL) format --check $(LINT_PATHS)
+	@$(EXEC) ruff src/
+	@$(EXEC) ruff format --check src/
+	@$(EXEC) isort --check src/
 .PHONY: lint
 
 docs:
