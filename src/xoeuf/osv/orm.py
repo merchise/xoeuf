@@ -8,6 +8,8 @@
 #
 """Xœuf basic ORM extensions for Open Object (OpenERP) models."""
 
+from collections.abc import Mapping
+
 from xoeuf.tools import add_symbols_to_xmls
 from xoeuf.models import get_modelname as _get_modelname
 
@@ -27,7 +29,6 @@ def guess_id(which, attr="id"):
 
     """
     from odoo.osv.orm import browse_record
-    from xotl.tools.future.collections import Mapping
 
     if isinstance(which, int):
         return which

@@ -8,6 +8,7 @@
 #
 """Helpers to generate ``BaseModel.write`` commands."""
 
+from collections.abc import Collection
 from odoo import fields
 
 
@@ -83,7 +84,6 @@ class _BaseWriter(object):
           be either a many2many or one2many column.
 
         """
-        from xotl.tools.future.types import is_collection
         from .orm import UPDATE_RELATED
 
         commands = self._commands
@@ -97,7 +97,7 @@ class _BaseWriter(object):
                 if self._is_many2many(attrname):
                     if val is None:
                         self.forgetall(attrname)
-                    elif is_collection(val):
+                    elif isinstance(val, Collection):
                         self.replace(attrname, *tuple(val))
                     else:
                         raise TypeError(
