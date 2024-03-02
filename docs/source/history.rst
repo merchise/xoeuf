@@ -11,6 +11,11 @@ to support Odoo 12 during the entire lifespan of xoeuf 3.x.
 
 This should be last series that support Odoo 12.
 
+2024-03-02.  Release 3.0.2.post1
+--------------------------------
+
+- Fix ImportError in `xoeuf.osv.ql`:mod: while using latest ``xotl.tools``.
+
 2024-03-02.  Release 3.0.2
 --------------------------
 
