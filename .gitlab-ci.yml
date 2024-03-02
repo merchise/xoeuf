@@ -52,7 +52,6 @@ lint:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 .run_tests: &run_tests
-  interruptible: true
   image: python:${PYTHON_VERSION}
   services:
     - name: "registry.merchise.org/provision/pg-testing:postgis-10-3.2-alpine"
@@ -85,6 +84,7 @@ lint:
 
 run all tests:
   <<: *run_tests
+  interruptible: true
   needs:
     - lint
   variables:
@@ -182,6 +182,7 @@ publish pypi:
 
 build documentation:
   <<: *with-build-documentation
+  interruptible: true
   needs: []
   only:
     <<: *changing-code-or-doc
@@ -226,7 +227,6 @@ publish in our rtd:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 pages:
-  interruptible: true
   image: alpine
   variables:
     GIT_STRATEGY: none
