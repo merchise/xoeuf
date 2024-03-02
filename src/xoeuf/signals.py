@@ -10,17 +10,14 @@
 # This is the implementation of the signals.  The 'signals' module remains the
 # API but we're porting this to 'odoo.signals'.
 import logging
+from contextlib import ExitStack, contextmanager
 from functools import wraps
 from threading import RLock
 
 from expiringdict import ExpiringDict
-
 from odoo import api, models
-
 from xotl.tools.objects import temp_attributes
 from xotl.tools.symbols import Unset
-from xotl.tools.future.contextlib import ExitStack, contextmanager
-
 
 logger = logging.getLogger(__name__)
 del logging
@@ -371,6 +368,7 @@ def mock_replace(hook, func, **replacement_attrs):
 
     """
     import contextlib
+
     from xotl.tools.symbols import Undefined
 
     try:

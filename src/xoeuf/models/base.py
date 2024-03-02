@@ -10,8 +10,9 @@ from collections import defaultdict
 from inspect import getmembers
 
 from odoo import api, models, tools
-from xoeuf.osv.expression import Domain
+
 from xoeuf.modules import get_caller_addon
+from xoeuf.osv.expression import Domain
 
 
 def get_modelname(model):

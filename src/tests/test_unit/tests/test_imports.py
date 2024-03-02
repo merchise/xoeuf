@@ -12,7 +12,7 @@ from odoo.tests.common import BaseCase
 class TestXoeufImports(BaseCase):
     def test_xoeuf_imports(self):
         "Xoeuf is importable in Python 2 and 3"
-        from xoeuf import fields, models, api  # noqa
+        from xoeuf import api, fields, models  # noqa
 
         try:
             from xoeuf.fields import Serialized  # noqa

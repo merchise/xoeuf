@@ -26,7 +26,6 @@ You can update or load all options by calling in any time either the method
 
 from collections import MutableMapping
 
-
 DEFAULT_COMMAND = str("server")
 _SECTION_SEP = str(".")
 

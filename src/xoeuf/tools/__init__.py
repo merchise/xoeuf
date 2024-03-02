@@ -10,12 +10,12 @@
 """Xœuf tools for Open Object (OpenERP) models."""
 
 import datetime
-from typing import Union, Any  # noqa
+from typing import Any, Union  # noqa
 
 from xotl.tools.names import nameof
 
 try:
-    from odoo.tools import safe_eval, float_round  # noqa
+    from odoo.tools import float_round, safe_eval  # noqa
 except ImportError:
     # This allows to generate the documentation without actually installing
     # Odoo
@@ -23,10 +23,8 @@ except ImportError:
 
 
 try:
-    from odoo.tools import (
-        DEFAULT_SERVER_DATE_FORMAT as _SVR_DATE_FMT,
-        DEFAULT_SERVER_DATETIME_FORMAT as _SVR_DATETIME_FMT,
-    )
+    from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as _SVR_DATE_FMT
+    from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT as _SVR_DATETIME_FMT
 except ImportError:
     # This allows to generate the documentation without actually installing
     # Odoo

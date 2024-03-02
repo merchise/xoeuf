@@ -9,6 +9,7 @@
 """Helpers to generate ``BaseModel.write`` commands."""
 
 from collections.abc import Collection
+
 from odoo import fields
 
 

@@ -11,7 +11,8 @@ from odoo.tests.common import BaseCase
 
 class TestModules(BaseCase):
     def test_get_object_module(self):
-        from .. import Foo
         from xoeuf.modules import get_object_module
+
+        from .. import Foo
 
         self.assertEqual(get_object_module(Foo), Foo.module)

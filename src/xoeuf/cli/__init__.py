@@ -76,8 +76,8 @@ del BaseCommand
 
 
 # TODO: Loader?
+from . import addons as _addons  # noqa
 from . import migration  # noqa
 from . import secure as _secure  # noqa
-from . import addons as _addons  # noqa
 
 del _secure, _addons, migration

@@ -6,13 +6,12 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from hypothesis import given, strategies as st, assume
-
-from odoo.tests.common import TransactionCase
+from hypothesis import assume, given
+from hypothesis import strategies as st
 from odoo.addons.test_property.models import Undefined
+from odoo.tests.common import TransactionCase
 
 from xoeuf.testing.db import rollbacked
-
 
 values = st.integers()
 

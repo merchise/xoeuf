@@ -8,12 +8,13 @@
 #
 import contextlib
 
-from hypothesis import strategies as s, given
-
-from xoeuf import fields
+from hypothesis import given
+from hypothesis import strategies as s
 from odoo.tests.common import TransactionCase, at_install, post_install
 
-from ..models import COLORS, Pax, CARS, WORK_TYPE
+from xoeuf import fields
+
+from ..models import CARS, COLORS, WORK_TYPE, Pax
 
 colors = s.sampled_from(list(COLORS.__members__.values()))
 color_pairs = s.sampled_from(list(COLORS.__members__.items()))

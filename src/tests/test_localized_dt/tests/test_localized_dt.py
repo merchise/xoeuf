@@ -7,6 +7,7 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import unittest
+
 from odoo.tests.common import TransactionCase
 
 

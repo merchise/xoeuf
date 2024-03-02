@@ -7,10 +7,9 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import unittest
-
-from hypothesis import strategies, given
 from datetime import datetime
 
+from hypothesis import given, strategies
 from odoo.tests.common import BaseCase
 
 formats = strategies.sampled_from(("%H:%M", "%H:%M:%S", "%H:%M:%S.%f"))

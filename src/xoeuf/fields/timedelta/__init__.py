@@ -7,6 +7,7 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 from datetime import timedelta
+
 from odoo.fields import Float
 
 

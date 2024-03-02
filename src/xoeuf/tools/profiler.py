@@ -15,7 +15,6 @@ For development only purposes.
 
 from xotl.tools.decorator.meta import decorator
 
-
 try:
     from line_profiler import LineProfiler
 

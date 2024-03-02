@@ -13,7 +13,7 @@ import pprint
 import textwrap
 
 from odoo import SUPERUSER_ID
-from odoo.fields import date, Date
+from odoo.fields import Date, date
 from odoo.modules.module import get_module_path
 
 from . import Command
@@ -283,8 +283,8 @@ class Module(object):
 
 
 def main():
-    from xotl.tools.cli.app import main
     from xotl.tools.cli import command_name
+    from xotl.tools.cli.app import main
 
     main(default=command_name(Migration))
 

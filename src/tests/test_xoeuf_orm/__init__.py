@@ -7,7 +7,7 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 
-from xoeuf import models, fields
+from xoeuf import fields, models
 
 
 class Node(models.Model):

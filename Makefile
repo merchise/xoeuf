@@ -1,5 +1,6 @@
 RYE_EXEC ?= rye run
-PATH := $(HOME)/.rye/shims:$(PATH)
+CARGO_HOME ?= $(HOME)/.cargo
+PATH := $(HOME)/.rye/shims:$(CARGO_HOME)/bin:$(PATH)
 SHELL := /bin/bash
 
 PYTHON_FILES := $(shell find src/ -type f -name '*.py')
@@ -31,12 +32,32 @@ LINT_PATHS ?= src/
 format:
 	@$(EXEC) $(LINT_TOOL) check --fix $(LINT_PATHS)
 	@$(EXEC) $(LINT_TOOL) format $(LINT_PATHS)
+	@$(EXEC) isort $(LINT_PATHS)
 .PHONY: format-python
 
 lint:
 	@$(EXEC) $(LINT_TOOL) check $(LINT_PATHS)
 	@$(EXEC) $(LINT_TOOL) format --check $(LINT_PATHS)
 .PHONY: lint
+
+docs:
+	@$(EXEC) pip install -r requirements-dev-py$$(echo $(PYTHON_VERSION) | sed "s/\.//").lock
+	$(MAKE) SPHINXBUILD="$(EXEC) sphinx-build" -C docs html
+	rye sync
+	cp -f requirements-dev.lock requirements-dev-py$$(echo $(PYTHON_VERSION) | sed "s/\.//").lock
+
+	if [ -d ../odoo ]; then \
+		$(EXEC) pip install -r ../odoo/requirements.txt; \
+		$(EXEC) pip install -e ../odoo; \
+	fi
+.PHONY: docs
+
+CADDY_SERVER_PORT ?= 9999
+caddy: docs
+	@docker run --rm -p $(CADDY_SERVER_PORT):$(CADDY_SERVER_PORT) \
+         -v $(PWD)/docs/build/html:/var/www -it caddy \
+         caddy file-server --browse --listen :$(CADDY_SERVER_PORT) --root /var/www
+.PHONY: caddy
 
 
 # You can tweak these defaults in '.envrc' or by passing them to 'make'.

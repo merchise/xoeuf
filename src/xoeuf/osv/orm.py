@@ -10,10 +10,10 @@
 
 from collections.abc import Mapping
 
-from xoeuf.tools import add_symbols_to_xmls
-from xoeuf.models import get_modelname as _get_modelname
-
 from xotl.tools.deprecation import deprecated
+
+from xoeuf.models import get_modelname as _get_modelname
+from xoeuf.tools import add_symbols_to_xmls
 
 get_modelname = deprecated("xoeuf.models.get_modelname")(_get_modelname)
 del _get_modelname, deprecated
