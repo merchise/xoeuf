@@ -53,9 +53,10 @@ lint:
 
 .run_tests: &run_tests
   image: python:${PYTHON_VERSION}
+  resource_group: "xoeuf - run tests"
   services:
     - name: "registry.merchise.org/provision/pg-testing:postgis-16-3.4-alpine"
-      alias: "postgres"
+      alias: $POSTGRES_HOST
   stage: test
   script:
     - |
@@ -80,6 +81,7 @@ lint:
       pip install -e .
       export ADDONS=`ls tests/ | grep ^test_ | xargs | tr " " ","`
       cd vendor/odoo
+      set -x
       ../../runtests-odoo.sh -i $ADDONS --db_host=$POSTGRES_HOST --db_password=$POSTGRES_PASSWORD --db_user=$POSTGRES_USER
 
 run all tests:
