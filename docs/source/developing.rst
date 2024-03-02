@@ -5,29 +5,24 @@
 We use `rye`_ to setup a basic virtualenv.  Most of our tests run in the
 Gitlab CI, but you can run the tests locally, provided that:
 
-1. You install `rye`_, and pin Python 3.8::
+You should have a suitable PostgreSQL installation for which you can issue
+``createdb``, ``dropdb`` without providing a user.  See `Recommended Postgres
+setup`_.
 
-     rye pin --relaxed 3.8
+Next to your worktree of ``xoeuf``, you have a clone of Odoo, in the branch
+you want to test.  For example::
 
-2. You have a suitable postgres installation for which you can issue
-   'createdb', 'dropdb' without providing a user.  See `Recommended Postgres
-   setup`_.
+  cd ..
+  git clone -b merchise-develop-12.0 https://gitlab.com/merchise-autrement/odoo.git
+  cd xoeuf
+  make install
 
-2. Next to your worktree of ``xoeuf``, you have a clone of Odoo, in the branch
-   you want to test.  For example::
+This will create the virtual environment and install that branch of Odoo in
+it.
 
-     cd ..
-     git clone -b merchise-develop-12.0 https://gitlab.com/merchise-autrement/odoo.git
-     cd xoeuf
-     make install
+The you should be able to run the tests::
 
-   This will create the virtual environment and install that branch of Odoo in
-   it.
-
-   The you should be able to run the tests::
-
-     ./runtests-odoo.sh --run-rye
-
+  make test
 
 Recommended Postgres setup
 ==========================
@@ -51,7 +46,7 @@ I recommend the following docker setup::
        -p 5432:5432 \
        --network host \
        -v /var/run/postgresql:/var/run/postgresql \
-       "$image" 
+       "$image"
 
 
 .. _rye: https://rye-up.com/
