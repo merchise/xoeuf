@@ -8,9 +8,8 @@
 #
 import hypothesis
 from hypothesis import strategies as s
-from xotl.tools.dim.currencies import currency as Currency
-
 from odoo.tests.common import TransactionCase
+from xotl.tools.dim.currencies import currency as Currency
 
 from xoeuf.testing.db import rollbacked
 

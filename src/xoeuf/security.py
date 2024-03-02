@@ -22,16 +22,7 @@ defined constants of security level.
 
 """
 
-from xotl.tools.crypto import (  # noqa
-    PASS_PHRASE_LEVEL_BASIC,
-    PASS_PHRASE_LEVEL_MAPPED,
-    PASS_PHRASE_LEVEL_MAPPED_MIXED,
-    PASS_PHRASE_LEVEL_MAPPED_DATED,
-    PASS_PHRASE_LEVEL_STRICT,
-    DEFAULT_PASS_PHRASE_LEVEL as _DEF_LEVEL,
-)
-
-
+from xotl.tools.crypto import DEFAULT_PASS_PHRASE_LEVEL as _DEF_LEVEL  # noqa
 from xotl.tools.names import strlist as strs
 
 __all__ = strs(

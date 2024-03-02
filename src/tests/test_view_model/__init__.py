@@ -6,8 +6,9 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xoeuf import api, fields, models
 from odoo import exceptions
+
+from xoeuf import api, fields, models
 
 TEST_MODEL_NAME = "test_view_model.model"
 TEST_MODEL_NAME2 = "test_view_model.model2"

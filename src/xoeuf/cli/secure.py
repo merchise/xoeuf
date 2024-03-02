@@ -16,6 +16,7 @@
 """
 
 from collections import abc
+
 from . import Command
 
 
@@ -24,8 +25,7 @@ class Secure(Command):
 
     @classmethod
     def get_arg_parser(cls):
-        from xotl.tools.crypto import PASS_LEVEL_NAME_MAPPING
-        from xotl.tools.crypto import DEFAULT_PASS_PHRASE_LEVEL
+        from xotl.tools.crypto import DEFAULT_PASS_PHRASE_LEVEL, PASS_LEVEL_NAME_MAPPING
 
         def path(extensions=None):
             """A type-builder for file arguments."""
@@ -93,7 +93,7 @@ class Secure(Command):
 
     @classmethod
     def database_factory(cls, database):
-        from odoo import api, SUPERUSER_ID
+        from odoo import SUPERUSER_ID, api
         from odoo.modules.registry import Registry
 
         db = Registry(database)
@@ -135,8 +135,8 @@ class Secure(Command):
             with open(filename, "rb") as fh:
                 return exec(compile(fh.read(), filename, "exec"), cfg, cfg)
         except Exception:
-            import traceback
             import sys
+            import traceback
 
             print("Failed to read config file: %s" % filename)
             traceback.print_exc()

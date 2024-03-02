@@ -7,6 +7,7 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 from datetime import datetime
+
 from odoo.tests.common import TransactionCase
 
 Hours = {"15:30": 15.5, "12:00": 12, "9:45": 9.75}

@@ -6,15 +6,16 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from pytz import timezone
 from datetime import datetime, time
 from functools import partial
 
-from odoo.fields import Selection, Datetime, Float, Default as DEFAULT
-
-from .utils import TimeRange as _TimeRangeObject
+from odoo.fields import Datetime
+from odoo.fields import Default as DEFAULT
+from odoo.fields import Float, Selection
+from pytz import timezone
 
 from ...tools import get_time_from_float
+from .utils import TimeRange as _TimeRangeObject
 
 
 class TimeField(_TimeRangeObject):

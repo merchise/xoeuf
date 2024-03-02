@@ -7,8 +7,8 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import pytz
-
 from odoo import fields
+
 from ...tools import localtime_as_remotetime
 
 

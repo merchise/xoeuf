@@ -7,13 +7,12 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 import logging
-from collections import namedtuple, Mapping
-from xotl.tools.string import cut_prefix
-from xotl.tools.objects import import_object
+from collections import Mapping, namedtuple
 
-from odoo import fields, api, models
+from odoo import api, fields, models
 from odoo.fields import Char
-
+from xotl.tools.objects import import_object
+from xotl.tools.string import cut_prefix
 
 logger = logging.getLogger(__name__)
 

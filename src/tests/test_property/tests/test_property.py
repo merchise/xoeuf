@@ -6,8 +6,9 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xoeuf import fields
 from odoo.tests.common import TransactionCase
+
+from xoeuf import fields
 
 
 class TestProperty(TransactionCase):

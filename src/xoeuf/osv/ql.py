@@ -14,11 +14,9 @@ Most of this has been extracted from `xotl.ql` (but we must support Python
 """
 
 import ast as pyast
-from dataclasses import dataclass
-
-from types import new_class
-
 import sys
+from dataclasses import dataclass
+from types import new_class
 
 _py_version = sys.version_info
 _py3 = _py_version >= (3, 0)

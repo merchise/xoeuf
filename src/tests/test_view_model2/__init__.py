@@ -6,8 +6,9 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xoeuf import fields, models
 from odoo.addons.test_view_model import TEST_MODEL_NAME
+
+from xoeuf import fields, models
 
 
 class Model(models.Model):

@@ -6,15 +6,13 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
+from datetime import date
+
+from hypothesis import given, strategies
+from odoo.tests.common import TransactionCase
 from xotl.tools.future.datetime import TimeSpan, parse_date
 
-from datetime import date
-from hypothesis import strategies, given
-
-from odoo.tests.common import TransactionCase
-
 from xoeuf.testing.db import rollbacked
-
 
 maybe_dates = strategies.dates(min_value=date(1900, 1, 1)) | strategies.none()
 

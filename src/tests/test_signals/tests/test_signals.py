@@ -6,26 +6,24 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xotl.tools.future.codecs import safe_decode
-
-from xoeuf.signals import (
-    mock_replace,
-    post_create,
-    pre_create,
-    write_wrapper,
-    pre_fields_view_get,
-    no_signals,
-)
-
-from odoo.tests.common import TransactionCase, at_install, post_install
-
 # Don't import relatively
 from odoo.addons.test_signals.models import (
     post_save_receiver,
     post_save_receiver_all_models,
+    pre_fvg_receiver,
     pre_save_receiver,
     wrap_nothing,
-    pre_fvg_receiver,
+)
+from odoo.tests.common import TransactionCase, at_install, post_install
+from xotl.tools.future.codecs import safe_decode
+
+from xoeuf.signals import (
+    mock_replace,
+    no_signals,
+    post_create,
+    pre_create,
+    pre_fields_view_get,
+    write_wrapper,
 )
 
 

@@ -7,8 +7,9 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 from collections import Mapping
-from enum import IntEnum, Enum
-from xoeuf import api, models, fields
+from enum import Enum, IntEnum
+
+from xoeuf import api, fields, models
 
 
 class COLORS(IntEnum):

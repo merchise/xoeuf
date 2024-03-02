@@ -39,6 +39,8 @@ build-backend = "hatchling.build"
 [tool.rye]
 managed = true
 dev-dependencies = [
+    "isort~=5.13.2",
+    "docutils>=0.20",
     "sphinx~=7.1.2",
     "hypothesis>=6.30, <6.38",
     "furo>=2023.9.10",
@@ -46,6 +48,8 @@ dev-dependencies = [
     "mypy~=1.8.0",
     "coverage[toml]~=7.4.1",
     "pip",
+    "ipdb~=0.13.13",
+    "ipython~=8.12.3",
 ]
 
 [tool.hatch.metadata]
@@ -87,3 +91,11 @@ preview = true
 [tool.ruff.format]
 preview = true
 exclude = ["src/xoeuf/_version.py"]
+
+
+[tool.isort]
+profile = "black"
+line_length = 100
+src_paths = ["src/"]
+skip_glob = ["src/xoeuf/__init__.py"]
+skip_gitignore = true

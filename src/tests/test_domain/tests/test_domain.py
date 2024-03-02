@@ -10,18 +10,16 @@ import logging
 from datetime import datetime
 from itertools import product
 
-from hypothesis import strategies as s, given, settings
-from hypothesis.stateful import RuleBasedStateMachine, rule, Bundle
-from hypothesis.stateful import run_state_machine_as_test
+from hypothesis import given, settings
+from hypothesis import strategies as s
+from hypothesis.stateful import Bundle, RuleBasedStateMachine, rule, run_state_machine_as_test
+from odoo.osv import expression as odoo_expr
+from odoo.tests.common import BaseCase, TransactionCase
+from xotl.tools.future.collections import opendict
 
 from xoeuf.osv import expression as expr
 from xoeuf.osv import ql
 from xoeuf.osv.expression import Domain
-
-from xotl.tools.future.collections import opendict
-
-from odoo.osv import expression as odoo_expr
-from odoo.tests.common import TransactionCase, BaseCase
 
 names = s.text(alphabet="abdefgh", min_size=1, max_size=5)
 operators = s.sampled_from(["=", "!=", "<", ">", "<>"])

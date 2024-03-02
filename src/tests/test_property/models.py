@@ -10,8 +10,9 @@ import logging
 import numbers
 import pickle
 
-from xoeuf import models, fields, api
 from odoo.tools.safe_eval import safe_eval
+
+from xoeuf import api, fields, models
 
 logger = logging.getLogger(__name__)
 del logging

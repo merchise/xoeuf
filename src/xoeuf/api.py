@@ -8,10 +8,8 @@
 #
 """Odoo API Extensons."""
 
-from xotl.tools.decorator.meta import decorator as _xdecorator
-
 from odoo import api as _odoo_api
-
+from xotl.tools.decorator.meta import decorator as _xdecorator
 
 # TODO: `copy_members` is deprecated since xotl.tools 1.8, use instead the same
 # mechanisms as `xotl.tools.future`.
@@ -104,6 +102,7 @@ def from_active_ids(f, leak_context=False):
 
     """
     from functools import wraps
+
     from xotl.tools.context import Context
 
     @multi  # noqa

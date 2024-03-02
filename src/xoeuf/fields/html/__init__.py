@@ -6,10 +6,9 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from odoo.fields import Html as Base
-
 from lxml import html
 from lxml.etree import XMLSyntaxError
+from odoo.fields import Html as Base
 
 from xoeuf.utils import hybridmethod
 

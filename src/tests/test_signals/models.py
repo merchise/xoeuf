@@ -6,8 +6,9 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xoeuf import api, models, fields, signals
 from lxml import etree
+
+from xoeuf import api, fields, models, signals
 
 
 class FVG(models.AbstractModel):

@@ -6,8 +6,8 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from psycopg2 import IntegrityError
 from odoo.tests.common import TransactionCase
+from psycopg2 import IntegrityError
 
 
 class TestO2O(TransactionCase):

@@ -7,10 +7,9 @@
 # This is free software; you can do what the LICENCE file allows you to.
 #
 from datetime import timedelta
-from hypothesis import strategies, given
 
+from hypothesis import given, strategies
 from odoo.tests.common import TransactionCase
-
 
 timedeltas = strategies.timedeltas()
 ALMOST_A_SECOND = timedelta(seconds=1, microseconds=-0.0001)

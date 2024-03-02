@@ -19,8 +19,9 @@ OpenERP server. Usage::
 
 
 def server():
-    from xoeuf.cli import DEFAULT_COMMAND
     from xotl.tools.cli.app import main
+
+    from xoeuf.cli import DEFAULT_COMMAND
 
     main(default=DEFAULT_COMMAND)
 

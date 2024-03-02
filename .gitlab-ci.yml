@@ -52,11 +52,11 @@ lint:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 .run_tests: &run_tests
-  interruptible: true
   image: python:${PYTHON_VERSION}
+  resource_group: "xoeuf - run tests"
   services:
-    - name: "registry.merchise.org/provision/pg-testing:postgis-10-3.2-alpine"
-      alias: "postgres"
+    - name: "registry.merchise.org/provision/pg-testing:postgis-16-3.4-alpine"
+      alias: $POSTGRES_HOST
   stage: test
   script:
     - |
@@ -68,9 +68,9 @@ lint:
       mkdir -p vendor
       cd vendor
       if [ "$CI_SERVER_HOST" = "gitlab.merchise.org" ]; then
-          git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
+          git clone -b ${ODOO_VARIANT}${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.merchise.org/merchise/odoo.git
       else
-          git clone -b merchise-develop-${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/merchise-autrement/odoo.git
+          git clone -b ${ODOO_VARIANT}${ODOO_VERSION}.0 --depth=1 https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/merchise-autrement/odoo.git
       fi
       cd odoo
       pip install -U wheel setuptools==53.1.0
@@ -81,10 +81,32 @@ lint:
       pip install -e .
       export ADDONS=`ls tests/ | grep ^test_ | xargs | tr " " ","`
       cd vendor/odoo
+      set -x
       ../../runtests-odoo.sh -i $ADDONS --db_host=$POSTGRES_HOST --db_password=$POSTGRES_PASSWORD --db_user=$POSTGRES_USER
 
 run all tests:
   <<: *run_tests
+  interruptible: true
+  needs:
+    - lint
+  variables:
+    POSTGRES_USER: xoeuf
+    POSTGRES_PASSWORD: xoeuf
+    POSTGRES_HOST: postgres
+    ODOO_VARIANT: merchise-develop-
+  parallel:
+    matrix:
+      - PYTHON_VERSION: ["3.8"]
+        ODOO_VERSION: "12"
+  only:
+    <<: *when-updating-code
+    variables:
+      - $CI_SERVER_HOST == "gitlab.merchise.org"
+
+run all tests (pure Odoo):
+  <<: *run_tests
+  allow_failure: true
+  interruptible: true
   needs:
     - lint
   variables:
@@ -99,6 +121,7 @@ run all tests:
     <<: *when-updating-code
     variables:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
+
 
 .x-build: &with-build
   image: python:3.8
@@ -182,6 +205,7 @@ publish pypi:
 
 build documentation:
   <<: *with-build-documentation
+  interruptible: true
   needs: []
   only:
     <<: *changing-code-or-doc
@@ -226,7 +250,6 @@ publish in our rtd:
       - $CI_SERVER_HOST == "gitlab.merchise.org"
 
 pages:
-  interruptible: true
   image: alpine
   variables:
     GIT_STRATEGY: none

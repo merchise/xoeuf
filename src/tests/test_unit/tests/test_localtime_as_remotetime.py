@@ -6,15 +6,15 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-import unittest
 import datetime
+import unittest
+
 import pytz
-
-from hypothesis import strategies, given, example
+from hypothesis import example, given, strategies
 from hypothesis.extra.pytz import timezones
-from xoeuf.tools import localtime_as_remotetime, normalize_datetime
-
 from odoo.tests.common import BaseCase
+
+from xoeuf.tools import localtime_as_remotetime, normalize_datetime
 
 
 class TestLocalAsRemote(BaseCase):

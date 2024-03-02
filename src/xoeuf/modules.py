@@ -8,8 +8,8 @@
 #
 """External Odoo's addons"""
 
-import sys
 import re
+import sys
 
 from xotl.tools.string import cut_prefix
 
@@ -50,9 +50,10 @@ def get_dangling_modules(db):
                  uses it.
 
     """
-    from xoeuf import api
     from odoo import SUPERUSER_ID
     from odoo.modules.module import get_modules
+
+    from xoeuf import api
 
     registry = _get_registry(db)
     cr = registry.cursor()

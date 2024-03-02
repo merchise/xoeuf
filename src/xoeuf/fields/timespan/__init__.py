@@ -31,8 +31,9 @@ def TimeSpan(start_date_field, end_date_field):
             some = fields.TimeSpan('some_start_date', 'some_end_date')
 
     """
-    from xoeuf.fields import Property
     from xotl.tools.future.datetime import TimeSpan
+
+    from xoeuf.fields import Property
 
     @Property
     def result(self):

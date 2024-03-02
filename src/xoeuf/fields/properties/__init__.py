@@ -6,9 +6,8 @@
 #
 # This is free software; you can do what the LICENCE file allows you to.
 #
-from xotl.tools.symbols import Unset
-
 from odoo.fields import Field as Base
+from xotl.tools.symbols import Unset
 
 
 class PropertyField(Base):
