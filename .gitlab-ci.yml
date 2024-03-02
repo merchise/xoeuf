@@ -54,7 +54,7 @@ lint:
 .run_tests: &run_tests
   image: python:${PYTHON_VERSION}
   services:
-    - name: "registry.merchise.org/provision/pg-testing:postgis-10-3.2-alpine"
+    - name: "registry.merchise.org/provision/pg-testing:postgis-16-3.4-alpine"
       alias: "postgres"
   stage: test
   script:
