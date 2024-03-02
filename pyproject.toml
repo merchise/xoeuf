@@ -9,7 +9,7 @@ dependencies = [
     "decorator>=4.0, <4.2",
     "expiringdict~=1.2.0",
     "pytz",
-    "xotl.tools>=1.9.0, <2.3",
+    "xotl.tools>=2.2.5,<3.1",
     "ipython",
 ]
 readme = "README.rst"
@@ -24,7 +24,7 @@ dynamic = [
 source = "vcs"
 
 [tool.hatch.build.hooks.vcs]
-version-file = "xoeuf/_version.py"
+version-file = "src/xoeuf/_version.py"
 
 [tool.hatch.metadata.hooks.vcs]
 
@@ -39,10 +39,12 @@ build-backend = "hatchling.build"
 [tool.rye]
 managed = true
 dev-dependencies = [
-    "sphinx>=7.1.2",
-    "hypothesis>=3.7.0, <6.38",
+    "sphinx~=7.1.2",
+    "hypothesis>=6.30, <6.38",
     "furo>=2023.9.10",
-    "ruff>=0.1.14",
+    "ruff==0.2.1",
+    "mypy~=1.8.0",
+    "coverage[toml]~=7.4.1",
     "pip",
 ]
 
@@ -50,10 +52,15 @@ dev-dependencies = [
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
-packages = ["xoeuf"]
+packages = ["src/xoeuf"]
 
 
 [tool.ruff]
+required-version = "0.2.1"
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
 ignore = [
   "E501", # line too long
   "B011", # 'assert False' is fine.
@@ -74,10 +81,9 @@ select = [
   "W292",   # No newline at end of file
   "W293",   # Blank line contains whitespace
 ]
-line-length = 100
-target-version = "py38"
-
-extend-exclude = ["__manifest__.py", "xoeuf/_version.py"]
+exclude = ["__manifest__.py", "src/xoeuf/_version.py"]
+preview = true
 
 [tool.ruff.format]
-exclude = ["xoeuf/_version.py"]
+preview = true
+exclude = ["src/xoeuf/_version.py"]

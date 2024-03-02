@@ -3,8 +3,6 @@
 *.pyo
 *.*~
 *.*~*
-bin/
-src/
 .*.cfg
 develop-eggs/
 parts/
@@ -38,5 +36,7 @@ dist/
 eproject.cfg
 .python-version
 
-xoeuf/_version.py
+src/xoeuf/_version.py
 vendor/
+requirements.lock
+requirements-dev.lock

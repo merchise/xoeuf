@@ -25,7 +25,7 @@ STDOUT="/tmp/odoo-$HASH.log"
 
 echo "Logs in $STDOUT"
 
-ADDONS=$(ls tests/ | grep ^test_ | xargs | tr " " ",")
+ADDONS=$(ls src/tests/ | grep '^test_' | xargs | tr " " ",")
 EXECUTABLE='xoeuf'
 current_dir=$(dirname $0)
 
@@ -94,7 +94,7 @@ function psql() { `psql_wrapper $@`; }
 # Just in case
 dropdb $DB 2>/dev/null
 
-ARGS="$ARGS --addons-path $current_dir/tests --stop-after-init --test-enable --log-level=test --workers=0 --max-cron-threads=0"
+ARGS="$ARGS --addons-path $current_dir/src/tests --stop-after-init --test-enable --log-level=test --workers=0 --max-cron-threads=0"
 if [ -z "$ADDONS" ]; then
     # XXX: Putting -i all does not work.  I have to look in standard addons
     # places.  However, I omit hardware-related addons.

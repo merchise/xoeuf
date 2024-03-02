@@ -41,26 +41,15 @@ stages:
     changes: *updating-code
 
 
-check code smells:
+lint:
   interruptible: true
   image: python:3.8
   stage: check
   script:
     - |
-      pip install -r requirements-dev.lock
-      ruff check xoeuf/ tests/
-  only:
-    <<: *when-updating-code
-    variables:
-      - $CI_SERVER_HOST == "gitlab.merchise.org"
-
-check formatting with ruff:
-  interruptible: true
-  image: python:3.8
-  stage: check
-  script:
-    - pip install -r requirements-dev.lock
-    - ruff format --check xoeuf/ tests/
+      apt-get update && apt-get install -y git
+      pip install -r requirements-dev-py38.lock
+      EXEC="" make lint
   only:
     <<: *when-updating-code
     variables:
@@ -68,9 +57,6 @@ check formatting with ruff:
 
 .run_tests: &run_tests
   interruptible: true
-  needs:
-    - check code smells
-    - check formatting with ruff
   image: python:${PYTHON_VERSION}
   services:
     - name: "registry.merchise.org/provision/pg-testing:postgis-10-3.2-alpine"
@@ -82,7 +68,7 @@ check formatting with ruff:
            libxslt1-dev libxml2-dev libsasl2-dev \
            libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
            libyaml-dev libgeos-dev libusb-dev \
-           libssl-dev postgresql-client
+           libssl-dev postgresql-client git
       mkdir -p vendor
       cd vendor
       if [ "$CI_SERVER_HOST" = "gitlab.merchise.org" ]; then
@@ -92,7 +78,6 @@ check formatting with ruff:
       fi
       cd odoo
       pip install -U wheel setuptools==53.1.0
-      pip install "futures<3"
       pip install -r requirements.txt
       pip install -U "six>=1.9.0" "decorator>=4.0,<4.2" "hypothesis>=6,<6.38" "celery~=5.0"
       pip install -e .
@@ -104,6 +89,8 @@ check formatting with ruff:
 
 run all tests:
   <<: *run_tests
+  needs:
+    - lint
   variables:
     POSTGRES_USER: xoeuf
     POSTGRES_PASSWORD: xoeuf
@@ -122,7 +109,7 @@ run all tests:
   stage: build
   script:
     - rm -f dist/*
-    - apt-get update && apt-get install -y build-essential git
+    - apt-get update && apt-get install -y git
     - pip install hatch
     - hatch build
   artifacts:
@@ -173,7 +160,7 @@ publish pypi:
            libxslt1-dev libxml2-dev libsasl2-dev \
            libjpeg-dev zlib1g-dev libldap2-dev libfreetype6-dev \
            libyaml-dev libgeos-dev libusb-dev \
-           libssl-dev postgresql-client
+           libssl-dev postgresql-client git
       mkdir -p vendor
       cd vendor
       if [ "$CI_SERVER_HOST" = "gitlab.merchise.org" ]; then
@@ -189,7 +176,7 @@ publish pypi:
       pip install -e .
 
       cd ../../
-      pip install -r requirements-dev.lock
+      pip install -r requirements-dev-py38.lock
       make -C docs/ html
   artifacts:
     paths:
