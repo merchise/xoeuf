@@ -16,7 +16,7 @@ Most of this has been extracted from `xotl.ql` (but we must support Python
 import ast as pyast
 from dataclasses import dataclass
 
-from xotl.tools.future.types import new_class
+from types import new_class
 
 import sys
 

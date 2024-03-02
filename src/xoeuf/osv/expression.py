@@ -35,9 +35,7 @@ from xotl.tools.objects import classproperty
 
 from odoo.osv import expression as _odoo_expression
 from xoeuf.utils import crossmethod
-
-
-from . import ql
+from xoeuf.osv import ql
 
 
 # TODO: `copy_members` is deprecated since xotl.tools 1.8, use instead the same
