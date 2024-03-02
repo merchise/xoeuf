@@ -9,8 +9,11 @@ EXEC ?= rye run
 ODOO_VERSION ?= 12.0
 PYTHON_VERSION ?= 3.8
 
+USE_UV ?= false
 install:
+	uv --version || curl -LsSf https://astral.sh/uv/install.sh | sh
 	rye self update || curl -sSf https://rye-up.com/get | bash
+	rye config --set-bool behavior.use-uv=$(USE_UV)
 	rye pin --relaxed $(PYTHON_VERSION)
 	rye sync
 	cp -f requirements-dev.lock requirements-dev-py$$(echo $(PYTHON_VERSION) | sed "s/\.//").lock
