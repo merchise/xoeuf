@@ -19,18 +19,14 @@ stages:
     - .gitlab-ci.yml
     - docs/**/*.py
     - docs/**/*.rst
-    - tests/**/*.py
-    - xoeuf/**/*.py
-    - requirements.lock
-    - requirements-dev.lock
+    - src/**/*.py
+    - requirements-dev-*.lock
     - pyproject.toml
 
 .x-updating-code: &updating-code
     - .gitlab-ci.yml
-    - tests/**/*.py
-    - xoeuf/**/*.py
-    - requirements.lock
-    - requirements-dev.lock
+    - src/**/*.py
+    - requirements-dev-*.lock
     - pyproject.toml
 
 .x-whenupdating-code: &when-updating-code
